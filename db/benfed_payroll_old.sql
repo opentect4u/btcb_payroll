@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.6.6deb5ubuntu0.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 16, 2022 at 03:07 PM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.33
+-- Host: localhost:3306
+-- Generation Time: Sep 02, 2022 at 12:02 PM
+-- Server version: 5.7.39-0ubuntu0.18.04.2
+-- PHP Version: 7.2.24-0ubuntu0.18.04.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -170,9 +168,9 @@ CREATE TABLE `md_branch` (
   `br_manager` varchar(50) NOT NULL,
   `contact_no` varchar(15) NOT NULL,
   `created_by` varchar(50) NOT NULL,
-  `created_dt` datetime NOT NULL DEFAULT current_timestamp(),
+  `created_dt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` varchar(50) NOT NULL,
-  `modified_dt` datetime NOT NULL DEFAULT current_timestamp()
+  `modified_dt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -210,30 +208,19 @@ INSERT INTO `md_branch` (`id`, `branch_name`, `districts_catered`, `ho_flag`, `b
 --
 
 CREATE TABLE `md_category` (
-  `id` int(11) NOT NULL,
-  `category` varchar(50) NOT NULL,
-  `da` float(10,2) NOT NULL,
-  `sa` float(10,2) NOT NULL,
-  `hra` float(10,2) NOT NULL,
-  `hra_max` float(10,2) NOT NULL,
-  `pf` float(10,2) NOT NULL,
-  `pf_max` float(10,2) NOT NULL,
-  `pf_min` float(10,2) NOT NULL,
-  `ta` float(10,2) NOT NULL,
-  `ma` float(10,2) NOT NULL,
-  `created_by` varchar(50) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `modified_by` varchar(50) DEFAULT NULL,
-  `modified_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `category_code` int(11) NOT NULL,
+  `category_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `md_category`
 --
 
-INSERT INTO `md_category` (`id`, `category`, `da`, `sa`, `hra`, `hra_max`, `pf`, `pf_max`, `pf_min`, `ta`, `ma`, `created_by`, `created_at`, `modified_by`, `modified_at`) VALUES
-(1, 'Permanent', 36.82, 16.40, 10.25, 4000.00, 12.00, 6000.00, 0.00, 600.00, 196.00, 'sss', '2022-09-15 02:23:52', 'sss', '2022-09-15 02:27:28'),
-(2, 'Temporary', 0.00, 0.00, 0.00, 0.00, 5.00, 600.00, 300.00, 0.00, 0.00, 'sss', '2022-09-15 02:28:31', 'sss', '2022-09-15 02:28:45');
+INSERT INTO `md_category` (`category_code`, `category_type`) VALUES
+(1, 'Govt.Regular Employee'),
+(2, 'Benfed Regular Employee'),
+(3, 'Contractual Employee'),
+(4, 'Daily Wages Employee');
 
 -- --------------------------------------------------------
 
@@ -318,12 +305,12 @@ CREATE TABLE `md_employee` (
   `email` varchar(100) DEFAULT NULL,
   `pan_no` varchar(50) DEFAULT NULL,
   `aadhar_no` varchar(50) DEFAULT NULL,
-  `emp_addr` text DEFAULT NULL,
+  `emp_addr` text,
   `bank_name` varchar(50) DEFAULT NULL,
   `bank_ac_no` varchar(50) DEFAULT NULL,
   `pf_ac_no` varchar(50) DEFAULT NULL,
   `UAN` varchar(25) DEFAULT NULL,
-  `basic_pay` decimal(10,2) DEFAULT 0.00,
+  `basic_pay` decimal(10,2) DEFAULT '0.00',
   `created_by` varchar(50) DEFAULT NULL,
   `created_dt` datetime DEFAULT NULL,
   `emp_status` char(1) DEFAULT 'A' COMMENT 'R=>Retired,A=>Active,S=>Suspended,RG=>Resigned',
@@ -569,9 +556,9 @@ INSERT INTO `md_parameters` (`sl_no`, `param_desc`, `param_value`, `modified_by`
 
 CREATE TABLE `md_ptax` (
   `id` int(10) NOT NULL,
-  `st` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `st` decimal(10,2) NOT NULL DEFAULT '0.00',
   `end` decimal(10,2) NOT NULL,
-  `ptax` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `ptax` decimal(10,2) NOT NULL DEFAULT '0.00',
   `created_at` datetime DEFAULT NULL,
   `created_by` varchar(100) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -626,7 +613,7 @@ CREATE TABLE `md_users` (
   `user_name` varchar(100) NOT NULL,
   `user_status` char(1) NOT NULL,
   `branch_id` varchar(20) NOT NULL,
-  `st` tinyint(1) NOT NULL DEFAULT 0,
+  `st` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` varchar(50) DEFAULT NULL,
   `created_dt` datetime DEFAULT NULL,
   `modified_by` varchar(50) DEFAULT NULL,
@@ -757,7 +744,7 @@ CREATE TABLE `td_attendance` (
   `emp_cd` int(11) NOT NULL,
   `emp_name` varchar(100) NOT NULL,
   `emp_catg` varchar(30) DEFAULT NULL,
-  `no_of_days` int(11) NOT NULL DEFAULT 0,
+  `no_of_days` int(11) NOT NULL DEFAULT '0',
   `created_by` varchar(50) NOT NULL,
   `created_dt` datetime NOT NULL,
   `modified_by` varchar(50) NOT NULL,
@@ -841,14 +828,7 @@ INSERT INTO `td_audit_trail` (`sl_no`, `login_dt`, `user_id`, `terminal_name`, `
 (56, '2022-08-31 03:02:43', 'sss', '::1', NULL),
 (57, '2022-09-01 10:31:46', 'sss', '::1', NULL),
 (58, '2022-09-02 10:32:06', 'sss', '::1', NULL),
-(59, '2022-09-02 11:02:16', 'sss', '::1', NULL),
-(60, '2022-09-15 07:34:26', 'sss', '127.0.0.1', NULL),
-(61, '2022-09-15 08:39:55', 'sss', '127.0.0.1', NULL),
-(62, '2022-09-15 08:39:59', 'sss', '127.0.0.1', NULL),
-(63, '2022-09-15 08:53:21', 'sss', '127.0.0.1', NULL),
-(64, '2022-09-15 11:57:35', 'sss', '127.0.0.1', NULL),
-(65, '2022-09-16 07:34:17', 'sss', '127.0.0.1', NULL),
-(66, '2022-09-16 12:15:36', 'sss', '127.0.0.1', NULL);
+(59, '2022-09-02 11:02:16', 'sss', '::1', NULL);
 
 -- --------------------------------------------------------
 
@@ -857,31 +837,21 @@ INSERT INTO `td_audit_trail` (`sl_no`, `login_dt`, `user_id`, `terminal_name`, `
 --
 
 CREATE TABLE `td_deductions` (
-  `emp_code` int(11) NOT NULL,
-  `effective_date` date NOT NULL,
-  `catg_id` int(11) NOT NULL,
-  `gross` float(10,2) NOT NULL,
-  `pf` float(10,2) NOT NULL,
-  `adv_agst_hb_prin` float(10,2) NOT NULL,
-  `adv_agst_hb_int` float(10,2) NOT NULL,
-  `adv_agst_hb_const_prin` float(10,2) NOT NULL,
-  `adv_agst_hb_const_int` float(10,2) NOT NULL,
-  `adv_agst_hb_staff_prin` float(10,2) NOT NULL,
-  `adv_agst_hb_staff_int` float(10,2) NOT NULL,
-  `gross_hb_int` float(10,2) NOT NULL,
-  `adv_agst_of_staff_prin` float(10,2) NOT NULL,
-  `adv_agst_of_staff_int` float(10,2) NOT NULL,
-  `staff_adv_ext_prin` float(10,2) NOT NULL,
-  `staff_adv_ext_int` float(10,2) NOT NULL,
-  `motor_cycle_prin` float(10,2) NOT NULL,
-  `motor_cycle_int` float(10,2) NOT NULL,
-  `p_tax` float(10,2) NOT NULL,
-  `gici` float(10,2) NOT NULL,
-  `puja_adv` float(10,2) NOT NULL,
-  `income_tax_tds` float(10,2) NOT NULL,
-  `union_subs` float(10,2) NOT NULL,
-  `tot_diduction` float(10,2) NOT NULL,
-  `net_sal` float(10,2) NOT NULL,
+  `emp_cd` int(11) NOT NULL,
+  `insuarance` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `ccs` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `hbl` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `telephone` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `med_adv` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `festival_adv` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `tf` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `med_ins` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `comp_loan` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `itax` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `gpf` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `epf` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `ptax` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `other_deduction` decimal(10,2) NOT NULL DEFAULT '0.00',
   `created_by` varchar(50) NOT NULL,
   `created_dt` datetime NOT NULL,
   `modified_by` varchar(50) DEFAULT NULL,
@@ -892,11 +862,11 @@ CREATE TABLE `td_deductions` (
 -- Dumping data for table `td_deductions`
 --
 
-INSERT INTO `td_deductions` (`emp_code`, `effective_date`, `catg_id`, `gross`, `pf`, `adv_agst_hb_prin`, `adv_agst_hb_int`, `adv_agst_hb_const_prin`, `adv_agst_hb_const_int`, `adv_agst_hb_staff_prin`, `adv_agst_hb_staff_int`, `gross_hb_int`, `adv_agst_of_staff_prin`, `adv_agst_of_staff_int`, `staff_adv_ext_prin`, `staff_adv_ext_int`, `motor_cycle_prin`, `motor_cycle_int`, `p_tax`, `gici`, `puja_adv`, `income_tax_tds`, `union_subs`, `tot_diduction`, `net_sal`, `created_by`, `created_dt`, `modified_by`, `modified_dt`) VALUES
-(174, '0000-00-00', 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 'sss', '2022-08-30 02:43:03', NULL, NULL),
-(389, '0000-00-00', 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 'anirbanc', '2021-04-02 06:13:13', NULL, NULL),
-(394, '0000-00-00', 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 'anirbanc', '2021-03-09 07:28:01', 'anirbanc', '2021-04-02 06:10:19'),
-(424, '0000-00-00', 0, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 'anirbanc', '2021-03-09 07:21:45', 'anirbanc', '2021-04-02 06:11:27');
+INSERT INTO `td_deductions` (`emp_cd`, `insuarance`, `ccs`, `hbl`, `telephone`, `med_adv`, `festival_adv`, `tf`, `med_ins`, `comp_loan`, `itax`, `gpf`, `epf`, `ptax`, `other_deduction`, `created_by`, `created_dt`, `modified_by`, `modified_dt`) VALUES
+(174, '100.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2000.00', '0.00', '0.00', '0.00', '0.00', 'sss', '2022-08-30 02:43:03', NULL, NULL),
+(389, '0.00', '600.00', '0.00', '0.00', '0.00', '1000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '7799.00', '200.00', '0.00', 'anirbanc', '2021-04-02 06:13:13', NULL, NULL),
+(394, '0.00', '600.00', '0.00', '0.00', '0.00', '1000.00', '0.00', '500.00', '0.00', '0.00', '0.00', '8281.00', '200.00', '0.00', 'anirbanc', '2021-03-09 07:28:01', 'anirbanc', '2021-04-02 06:10:19'),
+(424, '0.00', '5838.00', '0.00', '0.00', '0.00', '1000.00', '0.00', '500.00', '784.00', '33260.00', '0.00', '9357.00', '200.00', '0.00', 'anirbanc', '2021-03-09 07:21:45', 'anirbanc', '2021-04-02 06:11:27');
 
 -- --------------------------------------------------------
 
@@ -907,19 +877,11 @@ INSERT INTO `td_deductions` (`emp_code`, `effective_date`, `catg_id`, `gross`, `
 CREATE TABLE `td_income` (
   `emp_code` int(10) NOT NULL,
   `effective_date` date NOT NULL,
-  `catg_id` int(11) NOT NULL COMMENT 'md_category->id',
-  `basic` float(10,2) NOT NULL DEFAULT 0.00,
-  `da` float(10,2) NOT NULL DEFAULT 0.00,
-  `sa` float(10,2) NOT NULL DEFAULT 0.00,
-  `hra` float(10,2) NOT NULL DEFAULT 0.00,
-  `ta` float(10,2) NOT NULL DEFAULT 0.00,
-  `da_on_sa` float(10,2) NOT NULL DEFAULT 0.00,
-  `da_on_ta` float(10,2) NOT NULL DEFAULT 0.00,
-  `ma` float(10,2) NOT NULL DEFAULT 0.00,
-  `cash_swa` float(10,2) NOT NULL DEFAULT 0.00,
-  `gross` float(10,2) NOT NULL DEFAULT 0.00,
-  `lwp` float(10,2) NOT NULL DEFAULT 0.00,
-  `final_gross` float(10,2) NOT NULL DEFAULT 0.00,
+  `basic_pay` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `da_amt` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `hra_amt` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `med_allow` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `othr_allow` decimal(10,2) NOT NULL DEFAULT '0.00',
   `created_by` varchar(50) DEFAULT NULL,
   `created_dt` datetime DEFAULT NULL,
   `modified_by` varchar(50) DEFAULT NULL,
@@ -930,12 +892,15 @@ CREATE TABLE `td_income` (
 -- Dumping data for table `td_income`
 --
 
-INSERT INTO `td_income` (`emp_code`, `effective_date`, `catg_id`, `basic`, `da`, `sa`, `hra`, `ta`, `da_on_sa`, `da_on_ta`, `ma`, `cash_swa`, `gross`, `lwp`, `final_gross`, `created_by`, `created_dt`, `modified_by`, `modified_dt`) VALUES
-(1008, '2022-09-16', 1, 85200.00, 31371.00, 13973.00, 4000.00, 600.00, 5145.00, 221.00, 196.00, 100.00, 140806.00, 0.00, 140806.00, 'sss', '2022-09-16 10:03:29', 'sss', '2022-09-16 12:51:10'),
-(1013, '2022-09-16', 1, 70000.00, 25774.00, 11480.00, 4000.00, 600.00, 4227.00, 221.00, 196.00, 0.00, 116498.00, 0.00, 116498.00, 'sss', '2022-09-16 10:03:29', 'sss', '2022-09-16 12:51:10'),
-(1014, '2022-09-16', 1, 80300.00, 29566.00, 13169.00, 4000.00, 600.00, 4849.00, 221.00, 196.00, 0.00, 132901.00, 0.00, 132901.00, 'sss', '2022-09-16 10:03:29', 'sss', '2022-09-16 12:51:10'),
-(1015, '2022-09-16', 1, 126800.00, 46688.00, 20795.00, 4000.00, 600.00, 7657.00, 221.00, 196.00, 0.00, 206957.00, 0.00, 206957.00, 'sss', '2022-09-16 10:03:29', 'sss', '2022-09-16 12:51:10'),
-(1016, '2022-09-16', 1, 110200.00, 40576.00, 18073.00, 4000.00, 600.00, 6654.00, 221.00, 196.00, 0.00, 180520.00, 0.00, 180520.00, 'sss', '2022-09-16 10:03:30', 'sss', '2022-09-16 12:51:10');
+INSERT INTO `td_income` (`emp_code`, `effective_date`, `basic_pay`, `da_amt`, `hra_amt`, `med_allow`, `othr_allow`, `created_by`, `created_dt`, `modified_by`, `modified_dt`) VALUES
+(174, '2022-08-30', '57400.00', '1722.00', '6888.00', '500.00', '0.00', 'sss', '2022-08-30 02:41:52', NULL, NULL),
+(283, '2022-08-30', '48700.00', '1461.00', '5844.00', '500.00', '1000.00', 'sss', '2022-08-30 05:27:31', NULL, NULL),
+(344, '2021-03-09', '63100.00', '1893.00', '7572.00', '500.00', '0.00', 'anirbanc', '2021-03-09 07:25:37', NULL, NULL),
+(389, '2021-04-02', '63100.00', '1893.00', '7572.00', '500.00', '0.00', 'anirbanc', '2021-04-02 06:07:42', NULL, NULL),
+(394, '2021-03-09', '67000.00', '2010.00', '8040.00', '500.00', '0.00', 'anirbanc', '2021-03-09 07:24:11', NULL, NULL),
+(424, '2021-02-25', '75700.00', '2271.00', '9084.00', '500.00', '0.00', 'anirbanc', '2021-02-25 07:11:27', 'anirbanc', '2021-04-02 06:41:32'),
+(1008, '2021-03-09', '85200.00', '2556.00', '10224.00', '500.00', '0.00', 'anirbanc', '2021-03-09 07:25:10', NULL, NULL),
+(1014, '2021-03-09', '80300.00', '2409.00', '9636.00', '500.00', '0.00', 'anirbanc', '2021-03-09 07:24:40', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -954,7 +919,7 @@ CREATE TABLE `td_leave_dtls` (
   `leave_mode` varchar(1) NOT NULL,
   `from_dt` date NOT NULL,
   `to_dt` date NOT NULL,
-  `no_of_days` decimal(4,1) NOT NULL DEFAULT 0.0,
+  `no_of_days` decimal(4,1) NOT NULL DEFAULT '0.0',
   `remarks` tinytext NOT NULL,
   `approval_status` varchar(1) NOT NULL,
   `approved_dt` date NOT NULL,
@@ -962,10 +927,10 @@ CREATE TABLE `td_leave_dtls` (
   `rollback_reason` tinytext NOT NULL,
   `roll_dt` date DEFAULT NULL,
   `roll_by` varchar(50) DEFAULT NULL,
-  `cl_bal` decimal(4,1) NOT NULL DEFAULT 0.0,
-  `el_bal` decimal(4,1) NOT NULL DEFAULT 0.0,
-  `ml_bal` decimal(4,1) NOT NULL DEFAULT 0.0,
-  `od_bal` decimal(4,1) NOT NULL DEFAULT 0.0,
+  `cl_bal` decimal(4,1) NOT NULL DEFAULT '0.0',
+  `el_bal` decimal(4,1) NOT NULL DEFAULT '0.0',
+  `ml_bal` decimal(4,1) NOT NULL DEFAULT '0.0',
+  `od_bal` decimal(4,1) NOT NULL DEFAULT '0.0',
   `created_by` varchar(50) DEFAULT NULL,
   `created_dt` datetime DEFAULT NULL,
   `modified_by` varchar(50) DEFAULT NULL,
@@ -1012,7 +977,7 @@ CREATE TABLE `td_pay_slip` (
   `basic_pay` decimal(10,2) NOT NULL,
   `da_amt` decimal(10,2) NOT NULL,
   `hra_amt` decimal(10,2) NOT NULL,
-  `med_allow` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `med_allow` decimal(10,2) NOT NULL DEFAULT '0.00',
   `othr_allow` decimal(10,2) NOT NULL,
   `insuarance` decimal(10,2) NOT NULL,
   `ccs` decimal(10,2) NOT NULL,
@@ -1028,9 +993,9 @@ CREATE TABLE `td_pay_slip` (
   `gpf` decimal(20,2) NOT NULL,
   `epf` decimal(20,2) NOT NULL,
   `other_deduction` decimal(10,2) NOT NULL,
-  `tot_deduction` decimal(20,2) NOT NULL DEFAULT 0.00,
+  `tot_deduction` decimal(20,2) NOT NULL DEFAULT '0.00',
   `net_amount` decimal(10,2) DEFAULT NULL,
-  `remarks` text DEFAULT NULL,
+  `remarks` text,
   `approval_status` varchar(5) NOT NULL DEFAULT 'U'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1555,13 +1520,13 @@ DELIMITER ;
 
 CREATE TABLE `tm_pf_dtls` (
   `trans_dt` date NOT NULL,
-  `trans_no` int(11) NOT NULL DEFAULT 0,
+  `trans_no` int(11) NOT NULL DEFAULT '0',
   `sal_month` varchar(10) NOT NULL,
   `sal_year` int(11) NOT NULL,
   `emp_no` int(11) NOT NULL,
-  `employee_cntr` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `employer_cntr` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `balance` decimal(10,2) DEFAULT 0.00
+  `employee_cntr` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `employer_cntr` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `balance` decimal(10,2) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1584,7 +1549,7 @@ ALTER TABLE `md_branch`
 -- Indexes for table `md_category`
 --
 ALTER TABLE `md_category`
-  ADD PRIMARY KEY (`id`) USING BTREE;
+  ADD PRIMARY KEY (`category_code`);
 
 --
 -- Indexes for table `md_department`
@@ -1662,13 +1627,13 @@ ALTER TABLE `td_audit_trail`
 -- Indexes for table `td_deductions`
 --
 ALTER TABLE `td_deductions`
-  ADD PRIMARY KEY (`emp_code`) USING BTREE;
+  ADD PRIMARY KEY (`emp_cd`);
 
 --
 -- Indexes for table `td_income`
 --
 ALTER TABLE `td_income`
-  ADD PRIMARY KEY (`emp_code`,`effective_date`,`catg_id`) USING BTREE;
+  ADD PRIMARY KEY (`emp_code`,`effective_date`);
 
 --
 -- Indexes for table `td_leave_dtls`
@@ -1715,62 +1680,46 @@ ALTER TABLE `tm_pf_dtls`
 --
 ALTER TABLE `md_branch`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Here id is Disctrict Code', AUTO_INCREMENT=349;
-
---
--- AUTO_INCREMENT for table `md_category`
---
-ALTER TABLE `md_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `md_department`
 --
 ALTER TABLE `md_department`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- AUTO_INCREMENT for table `md_district`
 --
 ALTER TABLE `md_district`
   MODIFY `district_code` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=349;
-
 --
 -- AUTO_INCREMENT for table `md_fin_year`
 --
 ALTER TABLE `md_fin_year`
   MODIFY `sl_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
 --
 -- AUTO_INCREMENT for table `md_leave_allocation`
 --
 ALTER TABLE `md_leave_allocation`
   MODIFY `sl_no` int(10) NOT NULL AUTO_INCREMENT;
-
 --
 -- AUTO_INCREMENT for table `md_month`
 --
 ALTER TABLE `md_month`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
 --
 -- AUTO_INCREMENT for table `md_parameters`
 --
 ALTER TABLE `md_parameters`
   MODIFY `sl_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `md_ptax`
 --
 ALTER TABLE `md_ptax`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
 --
 -- AUTO_INCREMENT for table `td_audit_trail`
 --
 ALTER TABLE `td_audit_trail`
-  MODIFY `sl_no` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
-COMMIT;
-
+  MODIFY `sl_no` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

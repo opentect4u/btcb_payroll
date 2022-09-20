@@ -62,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <h4>SOUTHEND CONCLAVE, 3RD FLOOR, 1582 RAJDANGA MAIN ROAD, KOLKATA-700107.</h4>
                 <h4>Total deduction of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
                   <!-- <h4>Pay Slip for <?php echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); ?></h4> -->
-                  <!-- <?php echo $year->param_value; ?> -->
                 </h4>
               </div>
             </div>

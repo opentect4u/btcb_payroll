@@ -52,7 +52,12 @@
             </div>
 
         </div>
-        <?php if (isset($_REQUEST['submit'])) { ?>
+        <?php if (isset($_REQUEST['submit'])) {
+            $display = '';
+            $disabled = '';
+            if ($selected['catg_id'] == 2) {
+                $display = 'style="display:none;"';
+            } ?>
             <div class="card mt-4">
                 <div class="card-body">
                     <h3>Add Earnings</h3>
@@ -70,14 +75,14 @@
                                                             <tr>
                                                                 <th>Emp name</th>
                                                                 <th>Basic</th>
-                                                                <th>D.A.</th>
-                                                                <th>S.A.</th>
-                                                                <th>H.R.A.</th>
-                                                                <th>T.A.</th>
-                                                                <th>D.A. on S.A.</th>
-                                                                <th>D.A. on T.A.</th>
-                                                                <th>M.A.</th>
-                                                                <th>CASH/S.W.A.</th>
+                                                                <th <?= $display ?>>D.A.</th>
+                                                                <th <?= $display ?>>S.A.</th>
+                                                                <th <?= $display ?>>H.R.A.</th>
+                                                                <th <?= $display ?>>T.A.</th>
+                                                                <th <?= $display ?>>D.A. on S.A.</th>
+                                                                <th <?= $display ?>>D.A. on T.A.</th>
+                                                                <th <?= $display ?>>M.A.</th>
+                                                                <th <?= $display ?>>CASH/S.W.A.</th>
                                                                 <th>Gross Salary</th>
                                                                 <th>LWP</th>
                                                                 <th>GROSS SALARY (after deduction)</th>
@@ -100,42 +105,42 @@
                                                                                 <input type="text" name="basic[]" class="form-control required" id="basic_<?= $i ?>" value="<?= $sal['basic']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="da[]" class="form-control required" id="da_<?= $i ?>" value="<?= $sal['da']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="sa[]" class="form-control required" id="sa_<?= $i ?>" value="<?= $sal['sa']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="hra[]" class="form-control required" id="hra_<?= $i ?>" value="<?= $sal['hra']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="ta[]" class="form-control required" id="ta_<?= $i ?>" value="<?= $sal['ta']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="da_on_sa[]" class="form-control required" id="da_on_sa_<?= $i ?>" value="<?= $sal['da_on_sa']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="da_on_ta[]" class="form-control required" id="da_on_ta_<?= $i ?>" value="<?= $sal['da_on_ta']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="ma[]" class="form-control required" id="ma_<?= $i ?>" value="<?= $sal['ma']; ?>" readonly />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" name="cash_swa[]" class="form-control required" id="cash_swa_<?= $i ?>" value="<?= $sal['cash_swa']; ?>" onchange="cash_cal(<?= $i ?>)" />
                                                                             </div>

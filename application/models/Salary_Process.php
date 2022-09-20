@@ -32,9 +32,11 @@ class Salary_Process extends CI_Model
 	public function f_insert($table_name, $data_array)
 	{
 
-		$this->db->insert($table_name, $data_array);
-
-		return;
+		if ($this->db->insert($table_name, $data_array)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//For Editing row
@@ -517,5 +519,130 @@ class Salary_Process extends CI_Model
 		));
 		$query = $this->db->get('td_deductions a, md_employee b');
 		return $query->result();
+	}
+
+	function deduction_save($data)
+	{
+		// echo '<pre>';
+		// var_dump($data);
+		// exit;
+		$res_dt = false;
+		for ($i = 0; $i < count($data['emp_code']); $i++) {
+			$this->db->select('emp_code');
+			$this->db->where(array(
+				'emp_code' => $data['emp_code'][$i],
+				'effective_date' => $data['sal_date'],
+				'catg_id' => $data['catg_id']
+			));
+			$query = $this->db->get('td_deductions');
+			// echo $query->num_rows();
+			// exit;
+			if ($query->num_rows() > 0) {
+				$input = array(
+					'gross' => $data['gross'][$i],
+					'pf' => $data['pf'][$i],
+					'adv_agst_hb_prin' => $data['adv_agst_hb_prin'][$i],
+					'adv_agst_hb_int' => $data['adv_agst_hb_int'][$i],
+					'adv_agst_hb_const_prin' => $data['adv_agst_hb_const_prin'][$i],
+					'adv_agst_hb_const_int' => $data['adv_agst_hb_const_int'][$i],
+					'adv_agst_hb_staff_prin' => $data['adv_agst_hb_staff_prin'][$i],
+					'adv_agst_hb_staff_int' => $data['adv_agst_hb_staff_int'][$i],
+					'gross_hb_int' => $data['gross_hb_int'][$i],
+					'adv_agst_of_staff_prin' => $data['adv_agst_of_staff_prin'][$i],
+					'adv_agst_of_staff_int' => $data['adv_agst_of_staff_int'][$i],
+					'staff_adv_ext_prin' => $data['staff_adv_ext_prin'][$i],
+					'staff_adv_ext_int' => $data['staff_adv_ext_int'][$i],
+					'motor_cycle_prin' => $data['motor_cycle_prin'][$i],
+					'motor_cycle_int' => $data['motor_cycle_int'][$i],
+					'p_tax' => $data['p_tax'][$i],
+					'gici' => $data['gici'][$i],
+					'puja_adv' => $data['puja_adv'][$i],
+					'income_tax_tds' => $data['income_tax_tds'][$i],
+					'union_subs' => $data['union_subs'][$i],
+					'tot_diduction' => $data['tot_diduction'][$i],
+					'net_sal' => $data['net_sal'][$i],
+					'modified_by'    => $this->session->userdata['loggedin']['user_id'],
+					'modified_dt'    =>  date('Y-m-d h:i:s')
+				);
+				$this->db->where(array(
+					'emp_code' => $data['emp_code'][$i],
+					'effective_date' => $data['sal_date'],
+					'catg_id' => $data['catg_id']
+				));
+				if ($this->db->update('td_deductions', $input)) {
+					$res_dt = true;
+				} else {
+					$res_dt = false;
+					break;
+				}
+			} else {
+				$input = array(
+					'emp_code' => $data['emp_code'][$i],
+					'effective_date' => $data['sal_date'],
+					'catg_id' => $data['catg_id'],
+					'gross' => $data['gross'][$i],
+					'pf' => $data['pf'][$i],
+					'adv_agst_hb_prin' => $data['adv_agst_hb_prin'][$i],
+					'adv_agst_hb_int' => $data['adv_agst_hb_int'][$i],
+					'adv_agst_hb_const_prin' => $data['adv_agst_hb_const_prin'][$i],
+					'adv_agst_hb_const_int' => $data['adv_agst_hb_const_int'][$i],
+					'adv_agst_hb_staff_prin' => $data['adv_agst_hb_staff_prin'][$i],
+					'adv_agst_hb_staff_int' => $data['adv_agst_hb_staff_int'][$i],
+					'gross_hb_int' => $data['gross_hb_int'][$i],
+					'adv_agst_of_staff_prin' => $data['adv_agst_of_staff_prin'][$i],
+					'adv_agst_of_staff_int' => $data['adv_agst_of_staff_int'][$i],
+					'staff_adv_ext_prin' => $data['staff_adv_ext_prin'][$i],
+					'staff_adv_ext_int' => $data['staff_adv_ext_int'][$i],
+					'motor_cycle_prin' => $data['motor_cycle_prin'][$i],
+					'motor_cycle_int' => $data['motor_cycle_int'][$i],
+					'p_tax' => $data['p_tax'][$i],
+					'gici' => $data['gici'][$i],
+					'puja_adv' => $data['puja_adv'][$i],
+					'income_tax_tds' => $data['income_tax_tds'][$i],
+					'union_subs' => $data['union_subs'][$i],
+					'tot_diduction' => $data['tot_diduction'][$i],
+					'net_sal' => $data['net_sal'][$i],
+					'created_by' => $this->session->userdata['loggedin']['user_id'],
+					'created_dt' =>  date('Y-m-d h:i:s')
+				);
+				if ($this->db->insert('td_deductions', $input)) {
+					$res_dt = true;
+				} else {
+					$res_dt = false;
+					break;
+				}
+			}
+		}
+		return $res_dt;
+	}
+
+	function generate_slip($trans_dt, $month, $year, $catg_id, $trans_no, $flag)
+	{
+		$this->db->select('a.trans_date, a.trans_no, a.sal_month, a.sal_year, a.approval_status, a.catg_cd, c.category, SUM(b.net_sal) tot_sal, SUM(b.final_gross) tot_gross');
+		$this->db->where(array(
+			'a.trans_date=b.trans_date' => null,
+			'a.trans_no=b.trans_no' => null,
+			'a.sal_month=b.sal_month' => null,
+			'a.sal_year=b.sal_year' => null,
+			'a.catg_cd=b.catg_id' => null,
+			'a.catg_cd=c.id' => null,
+			'a.approval_status' => 'U',
+		));
+		if ($trans_dt && $month && $year && $catg_id && $trans_no) {
+			$this->db->where(array(
+				'a.trans_date' => $trans_dt,
+				'a.trans_no' => $trans_no,
+				'a.sal_month' => $month,
+				'a.sal_year' => $year,
+				'a.catg_cd' => $catg_id
+			));
+		}
+		$this->db->group_by('a.sal_month, a.catg_cd');
+		$query = $this->db->get('td_salary a, td_pay_slip b, md_category c');
+		if ($flag > 0) {
+			return $query->row();
+		} else {
+			return $query->result();
+		}
 	}
 }

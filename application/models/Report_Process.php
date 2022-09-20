@@ -1,136 +1,138 @@
 <?php
-	defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-	class Report_Process extends CI_Model{
+class Report_Process extends CI_Model
+{
 
-		public function f_get_particulars($table_name, $select=NULL, $where=NULL, $flag) {
+	public function f_get_particulars($table_name, $select = NULL, $where = NULL, $flag)
+	{
 
-			if(isset($select)) {
+		if (isset($select)) {
 
-				$this->db->select($select);
-
-			}
-
-			if(isset($where)) {
-
-				$this->db->where($where);
-
-			}
-
-			$result		=	$this->db->get($table_name);
-
-			if($flag == 1) {
-
-				return $result->row();
-				
-			}else {
-
-				return $result->result();
-
-			}
-
+			$this->db->select($select);
 		}
 
-
-		public function f_get_particulars_in($table_name, $where_in=NULL, $where=NULL) {
-
-			if(isset($where)){
-
-				$this->db->where($where);
-
-			}
-
-			if(isset($where_in)){
-
-				$this->db->where_in('emp_no', $where_in);
-
-			}
-			
-			$result	=	$this->db->get($table_name);
-
-			return $result->result();
-
-		}
-        public function f_edit($table_name, $data_array, $where) {
+		if (isset($where)) {
 
 			$this->db->where($where);
-			$this->db->update($table_name, $data_array);
-
-			return;
-
 		}
 
-		//For inserting row
-		public function f_insert($table_name, $data_array) {
+		$result		=	$this->db->get($table_name);
 
-			$this->db->insert($table_name, $data_array);
+		if ($flag == 1) {
 
-			return;
-
-		}
-
-		//For Deliting row
-		public function f_delete($table_name, $where) {
-
-			$this->db->delete($table_name, $where);
-
-			return;
-
-		}
-
-		public function f_get_totaldeduction($from_date, $to_date) {
-
-			$sql	=	"SELECT a.emp_no,
-								b.emp_name,
-								SUM(a.insuarance) insuarance,
-								SUM(a.ccs) ccs,
-								SUM(a.hbl) hbl,
-								SUM(a.telephone) telephone,
-								SUM(a.med_adv) med_adv,
-								SUM(a.festival_adv) festival_adv,
-								sum(a.tf)tf,
-								sum(a.med_ins)med_ins,
-								sum(a.comp_loan)comp_loan,
-								sum(a.ptax)ptax,
-								sum(a.gpf)gpf,
-								sum(a.epf)epf,
-								sum(a.other_deduction)other_deduction,
-								SUM(itax) itax FROM td_pay_slip a,md_employee b
-											   WHERE a.emp_no=b.emp_code
-											   and  trans_date BETWEEN '$from_date' AND '$to_date'
-											   GROUP BY a.emp_no, b.emp_name
-						";
-			
-			$result = $this->db->query($sql);
+			return $result->row();
+		} else {
 
 			return $result->result();
+		}
+	}
 
+
+	public function f_get_particulars_in($table_name, $where_in = NULL, $where = NULL)
+	{
+
+		if (isset($where)) {
+
+			$this->db->where($where);
 		}
 
-		public function f_get_emp_dtls($empno, $sal_month,$sal_yr){
+		if (isset($where_in)) {
 
-			$result = $this->db->query("select a.trans_date,a.trans_no,a.sal_month,a.sal_year,a.emp_no,a.basic_pay,
-			a.da_amt,a.hra_amt,a.med_allow,a.othr_allow,a.insuarance,a.ccs,a.hbl,a.telephone,a.med_adv,a.festival_adv,
-			a.tf,a.med_ins,a.comp_loan,a.ptax,a.itax,a.gpf,a.epf,a.other_deduction,a.tot_deduction,a.net_amount,a.remarks
-			,b.emp_name,b.designation,b.phn_no,b.department,b.pan_no
+			$this->db->where_in('emp_no', $where_in);
+		}
+
+		$result	=	$this->db->get($table_name);
+
+		return $result->result();
+	}
+	public function f_edit($table_name, $data_array, $where)
+	{
+
+		$this->db->where($where);
+		$this->db->update($table_name, $data_array);
+
+		return;
+	}
+
+	//For inserting row
+	public function f_insert($table_name, $data_array)
+	{
+
+		$this->db->insert($table_name, $data_array);
+
+		return;
+	}
+
+	//For Deliting row
+	public function f_delete($table_name, $where)
+	{
+
+		$this->db->delete($table_name, $where);
+
+		return;
+	}
+
+	public function f_get_totaldeduction($from_date, $to_date)
+	{
+		$this->db->select('a.emp_code, SUM(a.pf) pf, SUM(a.adv_agst_hb_prin)adv_agst_hb_prin, SUM(a.adv_agst_hb_int)adv_agst_hb_int, 
+		SUM(a.adv_agst_hb_const_prin)adv_agst_hb_const_prin, SUM(a.adv_agst_hb_const_int)adv_agst_hb_const_int, 
+		SUM(a.adv_agst_hb_staff_prin)adv_agst_hb_staff_prin, SUM(a.adv_agst_hb_staff_int)adv_agst_hb_staff_int, 
+		SUM(a.gross_hb_int)gross_hb_int, SUM(a.adv_agst_of_staff_prin)adv_agst_of_staff_prin, SUM(a.adv_agst_of_staff_int)adv_agst_of_staff_int, 
+		SUM(a.staff_adv_ext_prin)staff_adv_ext_prin, SUM(a.staff_adv_ext_int)staff_adv_ext_int,
+		 SUM(a.motor_cycle_prin)motor_cycle_prin, SUM(a.motor_cycle_int)motor_cycle_int, SUM(a.p_tax)p_tax,
+		  SUM(a.gici)gici, SUM(a.puja_adv)puja_adv, SUM(a.income_tax_tds)income_tax_tds, SUM(a.union_subs)union_subs, 
+		  SUM(a.tot_diduction)tot_diduction, b.emp_name');
+		$this->db->where(array(
+			'a.emp_code=b.emp_code' => null,
+			'a.trans_date <=' => $from_date,
+			'a.trans_date >=' => $to_date
+		));
+		$this->db->group_by('a.emp_code');
+		$query = $this->db->get('td_pay_slip a, md_employee b');
+		return $query->result();
+	}
+
+	public function f_get_totalearning($from_date, $to_date)
+	{
+		$this->db->select('a.emp_code, SUM(a.da) da, SUM(a.sa) sa, SUM(a.hra) hra, SUM(a.ta) ta, 
+		SUM(a.da_on_sa) da_on_sa, SUM(a.da_on_ta) da_on_ta, SUM(a.ma) ma, SUM(a.cash_swa) cash_swa, b.emp_name');
+		$this->db->where(array(
+			'a.emp_code=b.emp_code' => null,
+			'a.trans_date <=' => $from_date,
+			'a.trans_date >=' => $to_date
+		));
+		$this->db->group_by('a.emp_code');
+		$query = $this->db->get('td_pay_slip a, md_employee b');
+		return $query->result();
+	}
+
+	public function f_get_emp_dtls($empno, $sal_month, $sal_yr)
+	{
+
+		$result = $this->db->query("select a.trans_date, a.trans_no, a.sal_month, a.sal_year, a.emp_code, 
+			a.catg_id, a.basic, a.da, a.sa, a.hra, a.ta, a.da_on_sa, a.da_on_ta, a.ma, a.cash_swa, a.lwp, a.final_gross, 
+			a.pf, a.adv_agst_hb_prin, a.adv_agst_hb_int, a.adv_agst_hb_const_prin, a.adv_agst_hb_const_int, a.adv_agst_hb_staff_prin, 
+			a.adv_agst_hb_staff_int, a.gross_hb_int, a.adv_agst_of_staff_prin, a.adv_agst_of_staff_int, a.staff_adv_ext_prin, 
+			a.staff_adv_ext_int, a.motor_cycle_prin, a.motor_cycle_int, a.p_tax, a.gici, a.puja_adv, a.income_tax_tds, 
+			a.union_subs, a.tot_diduction, a.net_sal, a.remarks, b.emp_name,b.designation,b.phn_no,b.department,b.pan_no
 			  from 
-			  td_pay_slip a,md_employee b where a.emp_no =b.emp_code and a.emp_no = $empno
+			  td_pay_slip a,md_employee b where a.emp_code=b.emp_code and a.emp_code = $empno
 			  and a.sal_month=$sal_month and a.sal_year=$sal_yr ");
 
-			//$result	=	$this->db->query($sql);
+		//$result	=	$this->db->query($sql);
 
-			return $result->row();
-		}
+		return $result->row();
+	}
 
 
-		public function f_count_emp($emp_code){
+	public function f_count_emp($emp_code)
+	{
 
-			$result = $this->db->query("select count(*)count_emp from md_employee where emp_code = $emp_code");
+		$result = $this->db->query("select count(*)count_emp from md_employee where emp_code = $emp_code");
 
-			//$result	=	$this->db->query($sql);
+		//$result	=	$this->db->query($sql);
 
-			return $result->row();
-		}
-
-    }
-?>
+		return $result->row();
+	}
+}

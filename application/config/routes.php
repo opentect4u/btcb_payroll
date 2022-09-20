@@ -58,10 +58,12 @@ $route['slryed'] = 'salary/earning_edit';
 $route['payapprv'] = 'approves/payapprove';
 $route['slryded'] = 'salary/deduction';
 $route['slrydedad'] = 'salary/deduction_add';
+$route['slrydedsv'] = 'salary/deduction_save';
 $route['slrydeded'] = 'salary/deduction_edit';
 $route['deddl'] = 'salary/deduction_delete';
 $route['genspl'] = 'salary/generate_slip';
 $route['addgen'] = 'salary/generation_add';
+$route['vigen'] = 'salary/generation_view';
 $route['unapslipdel'] = 'salary/generation_delete';
 // CATEGORY ROUTE
 $route['catg'] = 'admin/category'; // DASHBOARD

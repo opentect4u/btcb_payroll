@@ -248,7 +248,7 @@
                   <?php if ($this->session->userdata['loggedin']['ho_flag'] == "Y") { ?>
                     <li class="nav-item"><a href="<?php echo site_url('reports/payslipreport'); ?>">Payslip</a></li>
                     <li class="nav-item"><a href="<?php echo site_url('reports/paystatementreport'); ?>">Salary Statement Month Wise</a></li>
-                    <li class="nav-item"><a href="<?php echo site_url('reports/salarycatgreport'); ?>">Category wise Salary List</a></li>
+                    <li class="nav-item"><a href="<?php echo site_url('reports/totalearning'); ?>">Total Earning</a></li>
                     <li class="nav-item"><a href="<?php echo site_url('reports/totaldeduction'); ?>">Total Deduction</a></li>
                   <?php } ?>
                 </ul>

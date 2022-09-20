@@ -52,7 +52,12 @@
             </div>
 
         </div>
-        <?php if (isset($_REQUEST['submit'])) { ?>
+        <?php if (isset($_REQUEST['submit'])) {
+            $display = '';
+            $disabled = '';
+            if ($selected['catg_id'] == 2) {
+                $display = 'style="display:none;"';
+            } ?>
             <div class="card mt-4">
                 <div class="card-body">
                     <h3>Add Deductions</h3>
@@ -60,7 +65,7 @@
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="POST" id="form" action="<?php echo site_url("salsv"); ?>">
+                                    <form method="POST" id="form" action="<?php echo site_url("slrydedsv"); ?>">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="table-responsive" id='permanent'>
@@ -71,26 +76,26 @@
                                                                 <th>Employee</th>
                                                                 <th>GROSS SALARY (after deduction)</th>
                                                                 <th>Service P.F.</th>
-                                                                <th>Adv. agst. H.B. Prin.</th>
-                                                                <th>Adv. agst. H.B. Int</th>
-                                                                <th>Adv. agst. H.B. Construction Prin.</th>
-                                                                <th>Adv. agst. H.B. Construction Int.</th>
-                                                                <th>Adv. agst. Staff H.B. Extention Prin.</th>
-                                                                <th>Adv. agst. Staff H.B. Extention Int.</th>
-                                                                <th>Gross H.B. Int.</th>
-                                                                <th>Adv. agst of staff with int. Prin.</th>
-                                                                <th>Adv. agst of staff with int. Int.</th>
+                                                                <th <?= $display ?>>Adv. agst. H.B. Prin.</th>
+                                                                <th <?= $display ?>>Adv. agst. H.B. Int</th>
+                                                                <th <?= $display ?>>Adv. agst. H.B. Construction Prin.</th>
+                                                                <th <?= $display ?>>Adv. agst. H.B. Construction Int.</th>
+                                                                <th <?= $display ?>>Adv. agst. Staff H.B. Extention Prin.</th>
+                                                                <th <?= $display ?>>Adv. agst. Staff H.B. Extention Int.</th>
+                                                                <th <?= $display ?>>Gross H.B. Int.</th>
+                                                                <th <?= $display ?>>Adv. agst of staff with int. Prin.</th>
+                                                                <th <?= $display ?>>Adv. agst of staff with int. Int.</th>
                                                                 <th>Staff Advance Extension Prin.</th>
                                                                 <th>Staff Advance Extension Int.</th>
-                                                                <th>Motor Cycle / TV Loan Prin.</th>
-                                                                <th>Motor Cycle / TV Loan Int.</th>
+                                                                <th <?= $display ?>>Motor Cycle / TV Loan Prin.</th>
+                                                                <th <?= $display ?>>Motor Cycle / TV Loan Int.</th>
                                                                 <th>P.Tax</th>
-                                                                <th>G.I.C.I</th>
+                                                                <th <?= $display ?>>G.I.C.I</th>
                                                                 <th>Puja Adv.</th>
-                                                                <th>Income Tax TDS.</th>
-                                                                <th>Union Subs.</th>
+                                                                <th <?= $display ?>>Income Tax TDS.</th>
+                                                                <th <?= $display ?>>Union Subs.</th>
                                                                 <th>Total Deduction</th>
-                                                                <th>NET SALARY</th>
+                                                                <th style="display: none;">NET SALARY</th>
                                                             </tr>
 
                                                         </thead>
@@ -98,7 +103,10 @@
                                                             <?php
                                                             if ($sal_list) {
                                                                 $i = 0;
-                                                                foreach ($sal_list as $sal) { ?>
+                                                                foreach ($sal_list as $sal) {
+                                                                    if ($sal['gross'] == 'Fill Income First') {
+                                                                        $disabled = 'disabled';
+                                                                    } ?>
                                                                     <tr>
                                                                         <td>
                                                                             <div class="form-group">
@@ -113,50 +121,50 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="form-group">
-                                                                                <input type="text" class="form-control" name="pf[]" id="pf_<?= $i ?>" value="<?= $sal['pf']; ?>" onchange="cal_deduction(<?= $i ?>)" onchange="cal_deduction(<?= $i ?>)" />
+                                                                                <input type="text" class="form-control" name="pf[]" id="pf_<?= $i ?>" value="<?= $sal['pf']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_prin[]" id="adv_agst_hb_prin_<?= $i ?>" value="<?= $sal['adv_agst_hb_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_int[]" id="adv_agst_hb_int_<?= $i ?>" value="<?= $sal['adv_agst_hb_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_const_prin[]" id="adv_agst_hb_const_prin_<?= $i ?>" value="<?= $sal['adv_agst_hb_const_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_const_int[]" id="adv_agst_hb_const_int_<?= $i ?>" value="<?= $sal['adv_agst_hb_const_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_staff_prin[]" id="adv_agst_hb_staff_prin_<?= $i ?>" value="<?= $sal['adv_agst_hb_staff_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_hb_staff_int[]" id="adv_agst_hb_staff_int_<?= $i ?>" value="<?= $sal['adv_agst_hb_staff_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="gross_hb_int[]" id="gross_hb_int_<?= $i ?>" value="<?= $sal['gross_hb_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_of_staff_prin[]" id="adv_agst_of_staff_prin_<?= $i ?>" value="<?= $sal['adv_agst_of_staff_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="adv_agst_of_staff_int[]" id="adv_agst_of_staff_int_<?= $i ?>" value="<?= $sal['adv_agst_of_staff_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -171,12 +179,12 @@
                                                                                 <input type="text" class="form-control" name="staff_adv_ext_int[]" id="staff_adv_ext_int_<?= $i ?>" value="<?= $sal['staff_adv_ext_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="motor_cycle_prin[]" id="motor_cycle_prin_<?= $i ?>" value="<?= $sal['motor_cycle_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="motor_cycle_int[]" id="motor_cycle_int_<?= $i ?>" value="<?= $sal['motor_cycle_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -186,7 +194,7 @@
                                                                                 <input type="text" class="form-control" name="p_tax[]" id="p_tax_<?= $i ?>" value="<?= $sal['p_tax']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="gici[]" id="gici_<?= $i ?>" value="<?= $sal['gici']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -196,12 +204,12 @@
                                                                                 <input type="text" class="form-control" name="puja_adv[]" id="puja_adv_<?= $i ?>" value="<?= $sal['puja_adv']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="income_tax_tds[]" id="income_tax_tds_<?= $i ?>" value="<?= $sal['income_tax_tds']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="union_subs[]" id="union_subs_<?= $i ?>" value="<?= $sal['union_subs']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -211,7 +219,7 @@
                                                                                 <input type="text" class="form-control" name="tot_diduction[]" id="tot_diduction_<?= $i ?>" value="<?= $sal['tot_diduction']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td>
+                                                                        <td style="display: none;">
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="net_sal[]" id="net_sal_<?= $i ?>" value="<?= $sal['net_sal']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -230,7 +238,7 @@
                                         <input type="hidden" name="sal_date" value="<?= $selected['sal_date']; ?>">
                                         <input type="hidden" name="catg_id" value="<?= $selected['catg_id']; ?>">
                                         <div class="mt-3">
-                                            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                                            <button type="submit" class="btn btn-primary mr-2" <?= $disabled ?>>Submit</button>
                                             <button class="btn btn-light">Cancel</button>
                                         </div>
                                     </form>

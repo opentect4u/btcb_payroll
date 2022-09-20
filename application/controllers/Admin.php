@@ -223,7 +223,7 @@ class Admin extends CI_Controller
 				$count = $query->num_rows(); //counting result from query
 
 				if ($count === 0) {
-					$this->Admin_Process->f_get_particulars('md_employee', $data_array);
+					// $this->Admin_Process->f_get_particulars('md_employee', $data_array);
 					$data_array = array(
 
 						"emp_code"         =>  $this->input->post('emp_code'),

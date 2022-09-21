@@ -3,7 +3,7 @@
           <div class="card">
               <div class="card-body">
                   <div class="row">
-                      <div class="col-11">
+                      <div class="col-10">
                           <h3>Earning</h3>
                           <?php if ($this->session->flashdata('msg')) { ?>
                               <div class="alert alert-danger" role="alert">
@@ -11,8 +11,8 @@
                               </div>
                           <?php } ?>
                       </div>
-                      <div class="col-1">
-                          <small><a href="<?php echo site_url("slryad"); ?>" class="btn btn-primary" style="width: 100px;">Add</a></small>
+                      <div class="col-2">
+                          <a href="<?php echo site_url("slryad"); ?>" class="btn btn-primary customFloat_Uts">Add</a>
                       </div>
                   </div>
                   <br>

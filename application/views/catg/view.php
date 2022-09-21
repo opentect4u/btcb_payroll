@@ -7,7 +7,7 @@
                           <h3>Employee Category List</h3>
                       </div>
                       <div class="col-2">
-                          <small><a href="<?= site_url() ?>/catged?id=" class="btn btn-primary" style="width: 100px;">Add</a></small>
+                          <a href="<?= site_url() ?>/catged?id=" class="btn btn-primary customFloat_Uts">Add</a>
                       </div>
                   </div>
                   <br>

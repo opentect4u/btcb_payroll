@@ -7,7 +7,7 @@
               <h3>Department List</h3>
             </div>
             <div class="col-2">
-              <small><a href="<?php echo base_url(); ?>index.php/adept" class="btn btn-primary" style="width: 100px;">Add</a></small>
+              <small><a href="<?php echo base_url(); ?>index.php/adept" class="btn btn-primary customFloat_Uts">Add</a></small>
             </div>
           </div>
           <br>

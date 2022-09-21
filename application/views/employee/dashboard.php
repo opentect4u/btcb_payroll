@@ -45,7 +45,7 @@
                 </div>
                 
                 <div class="col-1">
-                <small><a href="<?php echo site_url("emadst");?>" class="btn btn-primary" style="width: 100px;">Add</a></small>
+                <small><a href="<?php echo site_url("emadst");?>" class="btn btn-primary customFloat_Uts">Add</a></small>
                 </div>
              </div>
              <br>

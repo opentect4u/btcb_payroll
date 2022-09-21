@@ -6,7 +6,7 @@
         WindowObject.document.open();
         WindowObject.document.writeln('<!DOCTYPE html>');
         WindowObject.document.writeln('<html><head><title></title><style type="text/css">');
-        WindowObject.document.writeln('@media print { .center { text-align: center;} .underline { text-decoration: underline; } p { display:inline; } .left { margin-left: 315px; text-align="left" display: inline; } .right { margin-right: 375px; display: inline; } td.left_algn { text-align: left; } td.right_algn { text-align: right; } .t2 td, th { border: 1px solid black; } td.hight { hight: 15px; } table.width { width: 100%; } table.noborder { border: 0px solid black; } th.noborder { border: 0px solid black; } .border { border: 1px solid black; } .bottom { position: absolute;; bottom: 5px; width: 100%; } } </style>');
+        WindowObject.document.writeln('@media print { .center { text-align: center;} .underline { text-decoration: underline; } p { display:inline; } .left { margin-left: 315px; text-align="left" display: inline; } .right { margin-right: 375px; display: inline; } td.left_algn { text-align: left; } td.right_algn { text-align: right; } .t2 td, th { border: 1px solid black; } td.hight { hight: 15px; } table.width { width: 100%; } table.noborder { border: 0px solid black; } th.noborder { border: 0px solid black; } .border { border: 1px solid black; } .bottom { position: absolute; bottom: 5px; width: 100%;} .payslip_logo_Desc_Uts h3{font-size: 18px; margin: 0 0 6px 0; font-family: "Roboto", sans-serif;} .payslip_logo_Desc_Uts h4{font-size: 14px; margin: 0 0 5px 0; font-family: "Roboto", sans-serif;}  table.table_1_Uts{font-family: "Roboto", sans-serif; font-size: 14px;}  table.table_1_Uts{font-family: "Roboto", sans-serif; font-size: 14px;} .payslip_logo_Uts{float:left; max-width: 16.66667%; padding-right:15px;} .payslip_logo_Desc_Uts{float:left; max-width: 83.33333%;} table.payslipTable_Uts tbody tr td {font-size: 13px; padding:5px 15px;} .table_1_Uts{width:100%;} .table_1_Uts td td{padding:2px 15px;} .table_2_Uts td td{padding:2px 15px;} .table_1_Uts{font-family: "Roboto", sans-serif; font-size: 13px;} .table_2_Uts{font-family: "Roboto", sans-serif; font-size: 13px;} } </style>');
         WindowObject.document.writeln('</head><body onload="window.print()">');
         WindowObject.document.writeln(divToPrint.innerHTML);
         WindowObject.document.writeln('</body></html>');
@@ -26,20 +26,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
             <div class="card">
                 <div class="card-body" id='divToPrint'>
                     <div class="row">
-                        <div class="col-1"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
-                        <div class="col-10">
-                            <div style="text-align:center;">
+                        <div class="col-2 payslip_logo_Uts"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
+                        <div class="col-10 payslip_logo_Desc_Uts">
+                            
                                 <h3>WEST BENGAL STATE CONSUMERS' CO-OPERATIVE FEDERATION LTD.</h3>
                                 <h4>Southend Conclave, 3rd Floor, 1582, Rajdanga Main Rd, Kasba, Kolkata-700073</h4>
                                 <h4>Pay Slip for <?php echo MONTHS[$this->input->post('sal_month')] . '-' . $this->input->post('year'); ?></h4>
                                 <h4><?php echo $payslip_dtls->emp_name; ?></h4>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table id="order-listing" class="table">
+                                <table id="order-listing" class="table table_1_Uts">
                                     <thead>
                                         <tr>
                                             <th class="noborder" width="25%"></th>
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                             <th class="noborder" width="20%"></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="payslipTbodyFast_Uts">
 
                                         <tr>
                                             <td>Employee Name</td>
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                     </tbody>
                                 </table>
                                 <br>
-                                <table class="width" cellpadding="6" style="width:100%; ">
+                                <table class="width table_2_Uts payslipTable_Uts" cellpadding="6" style="width:100%;">
 
                                     <thead>
                                         <tr class="t2">

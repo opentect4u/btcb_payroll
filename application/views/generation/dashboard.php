@@ -6,7 +6,7 @@
                           <div class="col-10">
                               <h3>Unapproved Generation List</h3>
                           </div>
-                          <div class="col-2"><a href="<?php echo site_url("addgen"); ?>" class="btn btn-primary" style="width: 100px;">Add</a></div>
+                          <div class="col-2"><a href="<?php echo site_url("addgen"); ?>" class="btn btn-primary customFloat_Uts">Add</a></div>
                           <span class="confirm-div" style="float:right; color:green;"></span>
                       </div>
                       <div class="row">

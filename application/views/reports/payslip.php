@@ -28,12 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                     <div class="row">
                         <div class="col-2 payslip_logo_Uts"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
                         <div class="col-10 payslip_logo_Desc_Uts">
-                            
-                                <h3>WEST BENGAL STATE CONSUMERS' CO-OPERATIVE FEDERATION LTD.</h3>
-                                <h4>Southend Conclave, 3rd Floor, 1582, Rajdanga Main Rd, Kasba, Kolkata-700073</h4>
-                                <h4>Pay Slip for <?php echo MONTHS[$this->input->post('sal_month')] . '-' . $this->input->post('year'); ?></h4>
-                                <h4><?php echo $payslip_dtls->emp_name; ?></h4>
-                            
+                            <h3>The Bishnupur Town Co-Operative Bank</h3>
+                            <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
+                            <h4>Pay Slip for <?php echo MONTHS[$this->input->post('sal_month')] . '-' . $this->input->post('year'); ?></h4>
+                            <h4><?php echo $payslip_dtls->emp_name; ?></h4>
+
                         </div>
                     </div>
                     <div class="row">

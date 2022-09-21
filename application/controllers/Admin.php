@@ -184,15 +184,23 @@ class Admin extends CI_Controller
 	{		//Employee Dashboard
 
 		//Employee List
-		$select = array(
-			"a.emp_code", "a.emp_name", "a.emp_catg",
-			"a.department", 'b.district_name'
+		// $select = array(
+		// 	"a.emp_code", "a.emp_name", "a.emp_catg",
+		// 	"a.department", 'b.district_name'
+		// );
+		$select = 'a.emp_code, a.emp_name, a.designation, b.name department, c.category, d.district_name';
+		$where = array(
+			'a.department=b.id' => null,
+			'a.emp_catg=c.id' => null,
+			'a.emp_dist=d.district_code' => null,
+			'a.emp_status' => 'A'
 		);
+		$table_name = 'md_employee a, md_department b, md_category c, md_district d';
 
-		$employee['employee_dtls']    =   $this->Admin_Process->f_get_particulars("md_employee a,md_district b", $select, array("a.emp_dist = b.district_code" => NULL, "a.emp_status" => 'A'), 0);
+		$employee['employee_dtls']    =   $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
 
 		//Category List 
-		$employee['category_dtls']    =   $this->Admin_Process->f_get_particulars("md_category", NULL, NULL, 0);
+		// $employee['category_dtls']    =   $this->Admin_Process->f_get_particulars("md_category", NULL, NULL, 0);
 
 		$this->load->view('post_login/payroll_main');
 
@@ -416,16 +424,19 @@ class Admin extends CI_Controller
 
 	public function ajaxemplist()
 	{
-
 		$status = $this->input->post('active_status');
-		$select = array(
-			"emp_code", "emp_name", "emp_catg",
-			"department"
+		$select = 'a.emp_code, a.emp_name, a.designation, b.name department, c.category, d.district_name';
+		$where = array(
+			'a.department=b.id' => null,
+			'a.emp_catg=c.id' => null,
+			'a.emp_dist=d.district_code' => null,
+			'a.emp_status' => $status
 		);
+		$table_name = 'md_employee a, md_department b, md_category c, md_district d';
 
-		$employee['employee_dtls']    =   $this->Admin_Process->f_get_particulars("md_employee", $select, array("emp_status" => $status), 0);
+		$employee['employee_dtls']    =   $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
 		//Category List 
-		$employee['category_dtls']    =   $this->Admin_Process->f_get_particulars("md_category", NULL, NULL, 0);
+		// $employee['category_dtls']    =   $this->Admin_Process->f_get_particulars("md_category", NULL, NULL, 0);
 		$data = $this->load->view('employee/ajaxemplist', $employee);
 		return $data;
 	}

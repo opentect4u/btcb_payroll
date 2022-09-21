@@ -112,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <div class="col-1"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
                         <div class="col-10">
                             <div style="text-align:center;">
-                                <h3>THE WEST BENGAL STATE CO.OP.MARKETING FEDERATION LTD.</h3>
-                                <h4>Southend Conclave, 3rd Floor, 1582, Rajdanga Main Rd, Kasba, Kolkata-700073</h4>
+                                <h3>The Bishnupur Town Co-Operative Bank</h3>
+                                <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
                                 <h4>SALARY FOR THE <?php if ($this->input->post('category') == 1) {
                                                         echo "Govt.Regular Employee";
                                                     } else if ($this->input->post('category') == 2) {

@@ -48,8 +48,8 @@ class Approves extends CI_Controller
             );
 
             $this->Salary_Process->f_edit("td_salary", $data_array, $where);
-            // $this->Salary_Process->f_edit("td_deductions",  array("ded_month" => $this->input->get('month'), 'ded_yr' => $this->input->get('year')));
 
+            // $this->Salary_Process->f_edit("td_deductions",  array("ded_month" => $this->input->get('month'), 'ded_yr' => $this->input->get('year')));
             // $this->Payroll->f_edit("md_doublesal", array("emp_status" => 'I'), array("emp_status" => 'A'));
 
             $data_array1 = array(
@@ -65,9 +65,14 @@ class Approves extends CI_Controller
             // echo $this->db->last_query();
             // exit;
 
-            $this->session->set_flashdata('msg', 'Successfully Approved!');
-
-            // redirect('payroll/approve');
+            $erning_dt = $this->Admin_Process->f_get_particulars("td_pay_slip", null, $where1, 0);
+            $res_dt = $this->save_sal_slip($erning_dt);
+            $res_dt = json_decode($res_dt);
+            if ($res_dt->suc > 0) {
+                $this->session->set_flashdata('msg', 'Successfully Approved!');
+            } else {
+                $this->session->set_flashdata('msg', 'Data not updated in server');
+            }
             redirect('payapprv');
         }
 
@@ -76,6 +81,33 @@ class Approves extends CI_Controller
         $this->load->view('post_login/payroll_main');
         $this->load->view("approve/dashboard", $approve);
         $this->load->view('post_login/footer');
+    }
+
+    function save_sal_slip($data)
+    {
+        $url = 'http://localhost:3000';
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url . '/sal/save',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        return $response;
+        // exit;
     }
 
     //Creating individual payslip PDF

@@ -101,9 +101,51 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php
+                                                            $tot_pf = 0;
+                                                            $tot_adv_agst_hb_prin = 0;
+                                                            $tot_adv_agst_hb_int = 0;
+                                                            $tot_adv_agst_hb_const_prin = 0;
+                                                            $tot_adv_agst_hb_const_int = 0;
+                                                            $tot_adv_agst_hb_staff_prin = 0;
+                                                            $tot_adv_agst_hb_staff_int = 0;
+                                                            $tot_gross_hb_int = 0;
+                                                            $tot_adv_agst_of_staff_prin = 0;
+                                                            $tot_adv_agst_of_staff_int = 0;
+                                                            $tot_staff_adv_ext_prin = 0;
+                                                            $tot_staff_adv_ext_int = 0;
+                                                            $tot_motor_cycle_prin = 0;
+                                                            $tot_motor_cycle_int = 0;
+                                                            $tot_p_tax = 0;
+                                                            $tot_gici = 0;
+                                                            $tot_puja_adv = 0;
+                                                            $tot_income_tax_tds = 0;
+                                                            $tot_union_subs = 0;
+                                                            $tot_tot_diduction = 0;
+                                                            $tot_net_sal = 0;
                                                             if ($sal_list) {
                                                                 $i = 0;
                                                                 foreach ($sal_list as $sal) {
+                                                                    $tot_pf += $sal['pf'];
+                                                                    $tot_adv_agst_hb_prin += $sal['adv_agst_hb_prin'];
+                                                                    $tot_adv_agst_hb_int += $sal['adv_agst_hb_int'];
+                                                                    $tot_adv_agst_hb_const_prin += $sal['adv_agst_hb_const_prin'];
+                                                                    $tot_adv_agst_hb_const_int += $sal['adv_agst_hb_const_int'];
+                                                                    $tot_adv_agst_hb_staff_prin += $sal['adv_agst_hb_staff_prin'];
+                                                                    $tot_adv_agst_hb_staff_int += $sal['adv_agst_hb_staff_int'];
+                                                                    $tot_gross_hb_int += $sal['gross_hb_int'];
+                                                                    $tot_adv_agst_of_staff_prin += $sal['adv_agst_of_staff_prin'];
+                                                                    $tot_adv_agst_of_staff_int += $sal['adv_agst_of_staff_int'];
+                                                                    $tot_staff_adv_ext_prin += $sal['staff_adv_ext_prin'];
+                                                                    $tot_staff_adv_ext_int += $sal['staff_adv_ext_int'];
+                                                                    $tot_motor_cycle_prin += $sal['motor_cycle_prin'];
+                                                                    $tot_motor_cycle_int += $sal['motor_cycle_int'];
+                                                                    $tot_p_tax += $sal['p_tax'];
+                                                                    $tot_gici += $sal['gici'];
+                                                                    $tot_puja_adv += $sal['puja_adv'];
+                                                                    $tot_income_tax_tds += $sal['income_tax_tds'];
+                                                                    $tot_union_subs += $sal['union_subs'];
+                                                                    $tot_tot_diduction += $sal['tot_diduction'];
+                                                                    $tot_net_sal += $sal['net_sal'];
                                                                     if ($sal['gross'] == 'Fill Income First') {
                                                                         $disabled = 'disabled';
                                                                     } ?>
@@ -230,6 +272,30 @@
                                                                 }
                                                             }
                                                             ?>
+                                                            <tr>
+                                                                <td colspan="2">TOTAL: </td>
+                                                                <td><span id="tot_pf"><?= $tot_pf ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_prin"><?= $tot_adv_agst_hb_prin ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_int"><?= $tot_adv_agst_hb_int ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_const_prin"><?= $tot_adv_agst_hb_const_prin ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_const_int"><?= $tot_adv_agst_hb_const_int ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_staff_prin"><?= $tot_adv_agst_hb_staff_prin ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_hb_staff_int"><?= $tot_adv_agst_hb_staff_int ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_gross_hb_int"><?= $tot_gross_hb_int ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_of_staff_prin"><?= $tot_adv_agst_of_staff_prin ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_adv_agst_of_staff_int"><?= $tot_adv_agst_of_staff_int ?></span></td>
+                                                                <td><span id="tot_staff_adv_ext_prin"><?= $tot_staff_adv_ext_prin ?></span></td>
+                                                                <td><span id="tot_staff_adv_ext_int"><?= $tot_staff_adv_ext_int ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_motor_cycle_prin"><?= $tot_motor_cycle_prin ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_motor_cycle_int"><?= $tot_motor_cycle_int ?></span></td>
+                                                                <td><span id="tot_p_tax"><?= $tot_p_tax ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_gici"><?= $tot_gici ?></span></td>
+                                                                <td><span id="tot_puja_adv"><?= $tot_puja_adv ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_income_tax_tds"><?= $tot_income_tax_tds ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_union_subs"><?= $tot_union_subs ?></span></td>
+                                                                <td><span id="tot_tot_diduction"><?= $tot_tot_diduction ?></span></td>
+                                                                <td style="display: none;"><span id="tot_net_sal"><?= $tot_net_sal ?></span></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -239,7 +305,7 @@
                                         <input type="hidden" name="catg_id" value="<?= $selected['catg_id']; ?>">
                                         <div class="mt-3">
                                             <button type="submit" class="btn btn-primary mr-2" <?= $disabled ?>>Submit</button>
-                                            <button class="btn btn-light">Cancel</button>
+                                            <a href="<?= site_url() ?>/slryded" class="btn btn-light">Back</a>
                                         </div>
                                     </form>
                                 </div>
@@ -285,6 +351,116 @@
 
             var diduction = parseInt(gross) - parseInt(total_did)
             $('#net_sal_' + id).val(diduction);
+            cal_tot_amt();
+        }
+
+        function cal_tot_amt() {
+            var tot_pf = 0;
+            var tot_adv_agst_hb_prin = 0;
+            var tot_adv_agst_hb_int = 0;
+            var tot_adv_agst_hb_const_prin = 0;
+            var tot_adv_agst_hb_const_int = 0;
+            var tot_adv_agst_hb_staff_prin = 0;
+            var tot_adv_agst_hb_staff_int = 0;
+            var tot_gross_hb_int = 0;
+            var tot_adv_agst_of_staff_prin = 0;
+            var tot_adv_agst_of_staff_int = 0;
+            var tot_staff_adv_ext_prin = 0;
+            var tot_staff_adv_ext_int = 0;
+            var tot_motor_cycle_prin = 0;
+            var tot_motor_cycle_int = 0;
+            var tot_p_tax = 0;
+            var tot_gici = 0;
+            var tot_puja_adv = 0;
+            var tot_income_tax_tds = 0;
+            var tot_union_subs = 0;
+            var tot_tot_diduction = 0;
+            var tot_net_sal = 0;
+
+            $('input[name="pf[]"]').each(function() {
+                tot_pf = parseInt(tot_pf) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_prin[]"]').each(function() {
+                tot_adv_agst_hb_prin = parseInt(tot_adv_agst_hb_prin) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_int[]"]').each(function() {
+                tot_adv_agst_hb_int = parseInt(tot_adv_agst_hb_int) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_const_prin[]"]').each(function() {
+                tot_adv_agst_hb_const_prin = parseInt(tot_adv_agst_hb_const_prin) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_const_int[]"]').each(function() {
+                tot_adv_agst_hb_const_int = parseInt(tot_adv_agst_hb_const_int) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_staff_prin[]"]').each(function() {
+                tot_adv_agst_hb_staff_prin = parseInt(tot_adv_agst_hb_staff_prin) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_hb_staff_int[]"]').each(function() {
+                tot_adv_agst_hb_staff_int = parseInt(tot_adv_agst_hb_staff_int) + parseInt(this.value)
+            });
+            $('input[name="gross_hb_int[]"]').each(function() {
+                tot_gross_hb_int = parseInt(tot_gross_hb_int) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_of_staff_prin[]"]').each(function() {
+                tot_adv_agst_of_staff_prin = parseInt(tot_adv_agst_of_staff_prin) + parseInt(this.value)
+            });
+            $('input[name="adv_agst_of_staff_int[]"]').each(function() {
+                tot_adv_agst_of_staff_int = parseInt(tot_adv_agst_of_staff_int) + parseInt(this.value)
+            });
+            $('input[name="staff_adv_ext_prin[]"]').each(function() {
+                tot_staff_adv_ext_prin = parseInt(tot_staff_adv_ext_prin) + parseInt(this.value)
+            });
+            $('input[name="staff_adv_ext_int[]"]').each(function() {
+                tot_staff_adv_ext_int = parseInt(tot_staff_adv_ext_int) + parseInt(this.value)
+            });
+            $('input[name="motor_cycle_prin[]"]').each(function() {
+                tot_motor_cycle_prin = parseInt(tot_motor_cycle_prin) + parseInt(this.value)
+            });
+            $('input[name="motor_cycle_int[]"]').each(function() {
+                tot_motor_cycle_int = parseInt(tot_motor_cycle_int) + parseInt(this.value)
+            });
+            $('input[name="p_tax[]"]').each(function() {
+                tot_p_tax = parseInt(tot_p_tax) + parseInt(this.value)
+            });
+            $('input[name="gici[]"]').each(function() {
+                tot_gici = parseInt(tot_gici) + parseInt(this.value)
+            });
+            $('input[name="puja_adv[]"]').each(function() {
+                tot_puja_adv = parseInt(tot_puja_adv) + parseInt(this.value)
+            });
+            $('input[name="income_tax_tds[]"]').each(function() {
+                tot_income_tax_tds = parseInt(tot_income_tax_tds) + parseInt(this.value)
+            });
+            $('input[name="union_subs[]"]').each(function() {
+                tot_union_subs = parseInt(tot_union_subs) + parseInt(this.value)
+            });
+            $('input[name="tot_diduction[]"]').each(function() {
+                tot_tot_diduction = parseInt(tot_tot_diduction) + parseInt(this.value)
+            });
+            $('input[name="net_sal[]"]').each(function() {
+                tot_net_sal = parseInt(tot_net_sal) + parseInt(this.value)
+            });
+            $('#tot_pf').text(tot_pf);
+            $('#tot_adv_agst_hb_prin').text(tot_adv_agst_hb_prin);
+            $('#tot_adv_agst_hb_int').text(tot_adv_agst_hb_int);
+            $('#tot_adv_agst_hb_const_prin').text(tot_adv_agst_hb_const_prin);
+            $('#tot_adv_agst_hb_const_int').text(tot_adv_agst_hb_const_int);
+            $('#tot_adv_agst_hb_staff_prin').text(tot_adv_agst_hb_staff_prin);
+            $('#tot_adv_agst_hb_staff_int').text(tot_adv_agst_hb_staff_int);
+            $('#tot_gross_hb_int').text(tot_gross_hb_int);
+            $('#tot_adv_agst_of_staff_prin').text(tot_adv_agst_of_staff_prin);
+            $('#tot_adv_agst_of_staff_int').text(tot_adv_agst_of_staff_int);
+            $('#tot_staff_adv_ext_prin').text(tot_staff_adv_ext_prin);
+            $('#tot_staff_adv_ext_int').text(tot_staff_adv_ext_int);
+            $('#tot_motor_cycle_prin').text(tot_motor_cycle_prin);
+            $('#tot_motor_cycle_int').text(tot_motor_cycle_int);
+            $('#tot_p_tax').text(tot_p_tax);
+            $('#tot_gici').text(tot_gici);
+            $('#tot_puja_adv').text(tot_puja_adv);
+            $('#tot_income_tax_tds').text(tot_income_tax_tds);
+            $('#tot_union_subs').text(tot_union_subs);
+            $('#tot_tot_diduction').text(tot_tot_diduction);
+            $('#tot_net_sal').text(tot_net_sal);
         }
     </script>
 

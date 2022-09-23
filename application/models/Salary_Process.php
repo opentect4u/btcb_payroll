@@ -361,7 +361,7 @@ class Salary_Process extends CI_Model
 
 	function get_emp_dtls($catg)
 	{
-		$this->db->select('emp_code, emp_name, emp_catg, designation, basic_pay');
+		$this->db->select('emp_code, emp_name, emp_catg, designation, basic_pay, bank_ac_no');
 		$this->db->where(array(
 			'emp_catg' => $catg
 		));

@@ -1,4 +1,4 @@
-<div class="container-fluid page-body-wrapper">
+<!-- <div class="container-fluid page-body-wrapper">
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
@@ -351,5 +351,7 @@
 							</div>
             </div>
           </div>
-        </div>
-        <!-- content-wrapper ends -->
+        </div> -->
+
+
+<!-- content-wrapper ends -->

@@ -90,9 +90,34 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php
+                                                            $tot_final_gross = 0;
+                                                            $tot_basic = 0;
+                                                            $tot_da = 0;
+                                                            $tot_sa = 0;
+                                                            $tot_hra = 0;
+                                                            $tot_ta = 0;
+                                                            $tot_da_on_sa = 0;
+                                                            $tot_da_on_ta = 0;
+                                                            $tot_ma = 0;
+                                                            $tot_cash_swa = 0;
+                                                            $tot_gross = 0;
+                                                            $tot_lwp = 0;
                                                             if ($sal_list) {
                                                                 $i = 0;
-                                                                foreach ($sal_list as $sal) { ?>
+                                                                foreach ($sal_list as $sal) {
+                                                                    $tot_final_gross += $sal['final_gross'];
+                                                                    $tot_basic += $sal['basic'];
+                                                                    $tot_da += $sal['da'];
+                                                                    $tot_sa += $sal['sa'];
+                                                                    $tot_hra += $sal['hra'];
+                                                                    $tot_ta += $sal['ta'];
+                                                                    $tot_da_on_sa += $sal['da_on_sa'];
+                                                                    $tot_da_on_ta += $sal['da_on_ta'];
+                                                                    $tot_ma += $sal['ma'];
+                                                                    $tot_cash_swa += $sal['cash_swa'];
+                                                                    $tot_gross += $sal['gross'];
+                                                                    $tot_lwp += $sal['lwp'];
+                                                            ?>
                                                                     <tr>
                                                                         <td>
                                                                             <div class="form-group">
@@ -166,16 +191,32 @@
                                                                 }
                                                             }
                                                             ?>
+                                                            <tr>
+                                                                <td>Total:</td>
+                                                                <td><span id="tot_basic"><?= $tot_basic ?></span></td>
+                                                                <td><span id="tot_da"><?= $tot_da ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_sa"><?= $tot_sa ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_hra"><?= $tot_hra ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_ta"><?= $tot_ta ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_da_on_sa"><?= $tot_da_on_sa ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_da_on_ta"><?= $tot_da_on_ta ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_ma"><?= $tot_ma ?></span></td>
+                                                                <td <?= $display ?>><span id="tot_cash_swa"><?= $tot_cash_swa ?></span></td>
+                                                                <td><span id="tot_gross"><?= $tot_gross ?></span></td>
+                                                                <td><span id="tot_lwp"><?= $tot_lwp ?></span></td>
+                                                                <td><span id="tot_final_gross"><?= $tot_final_gross ?></span></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <label class="mt-3"><b>Total Gross Salary (After Deduction): </b>&#8377 <span id="tot_gross"><?= $tot_gross ?></span>/-</label>
                                             </div>
                                         </div>
                                         <input type="hidden" name="sal_date" value="<?= $selected['sal_date']; ?>">
                                         <input type="hidden" name="catg_id" value="<?= $selected['catg_id']; ?>">
                                         <div class="mt-3">
                                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
-                                            <button class="btn btn-light">Cancel</button>
+                                            <a href="<?= site_url() ?>/slrydtl" class="btn btn-light">Back</a>
                                         </div>
                                     </form>
                                 </div>
@@ -195,12 +236,34 @@
             var final_gross = $('#final_gross_' + id).val();
             $('#gross_' + id).val(parseInt(cash_val) + parseInt(gross_val))
             $('#final_gross_' + id).val(parseInt(cash_val) + parseInt(final_gross))
+            var final_gross = 0;
+            $('input[name="final_gross[]"]').each(function() {
+                final_gross = parseInt(final_gross) + parseInt(this.value);
+            })
+            $('#tot_final_gross').text(final_gross)
+            var tot_cash_swa = 0;
+            $('input[name="cash_swa[]"]').each(function() {
+                tot_cash_swa = parseInt(tot_cash_swa) + parseInt(this.value);
+            })
+            $('#tot_cash_swa').text(tot_cash_swa)
+
+            // console.log(final_gross);
         }
 
         function lwp_cal(id) {
             var lwp_val = $('#lwp_' + id).val();
             var final_gross = $('#final_gross_' + id).val();
             $('#final_gross_' + id).val(parseInt(final_gross) - parseInt(lwp_val))
+            var final_gross = 0;
+            $('input[name="final_gross[]"]').each(function() {
+                final_gross = parseInt(final_gross) + parseInt(this.value);
+            })
+            $('#tot_gross').text(final_gross)
+            var tot_lwp = 0;
+            $('input[name="lwp[]"]').each(function() {
+                tot_lwp = parseInt(tot_lwp) + parseInt(this.value);
+            })
+            $('#tot_lwp').text(tot_lwp)
         }
     </script>
 

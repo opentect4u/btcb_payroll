@@ -672,7 +672,8 @@ class Salary extends CI_Controller
                             'union_subs' => $deduction_dt->union_subs,
                             'tot_diduction' => $deduction_dt->tot_diduction,
                             'net_sal' => $deduction_dt->net_sal,
-                            'remarks' => 'System Generated'
+                            'remarks' => 'System Generated',
+                            'bank_ac_no' => $emp->bank_ac_no
                         );
                         // echo '<pre>';
                         // var_dump($input);

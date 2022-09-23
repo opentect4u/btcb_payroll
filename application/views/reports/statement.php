@@ -160,14 +160,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                             </tr>
                                         <?php
                                         } else {
-                                            echo "<tr><td colspan='4' style='text-align:center;'>No Data Found</td></tr>";
+                                            echo "<tr><td colspan='32' style='text-align:center;'>No Data Found</td></tr>";
                                         }
                                         ?>
                                     </tbody>
                                 </table>
                                 <br>
                                 <div>
-                                    <p>Amount: <?php echo @$tot_net . ' (' . getIndianCurrency(@$tot_net) . ').'; ?></p>
+                                    <p>Amount: <?php echo @$tot_net . ' (' . getIndianCurrency(@$tot_net > 0 ? $tot_net : 0.00) . ').'; ?></p>
                                 </div>
 
                                 <div class="bottom">
@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     </div>
                                                     <div class="col-6">
                                                         <label for="exampleInputName1">Select Month:</label>
-                                                        <select class="form-control" name="sal_month" id="sal_month">
+                                                        <select class="form-control" name="sal_month" id="sal_month" require>
                                                             <option value="">Select Month</option>
                                                             <?php foreach ($month_list as $m_list) { ?>
 
@@ -228,11 +228,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <label for="exampleInputName1">Input Year:</label>
-                                                        <input type="text" class="form-control" name="year" id="year" value="<?php echo date('Y'); ?>" />
+                                                        <input type="text" class="form-control" name="year" id="year" value="<?php echo date('Y'); ?>" require />
                                                     </div>
                                                     <div class="col-6">
                                                         <label for="exampleInputName1">Category:</label>
-                                                        <select class="form-control required" name="category" id="category">
+                                                        <select class="form-control required" name="category" id="category" require>
 
                                                             <option value="">Select Category</option>
 
@@ -248,7 +248,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input type="submit" class="btn btn-info" value="Proceed" />
+                                            <input type="submit" class="btn btn-info" value="Proceed" onclick="return checkVal();" />
                                             <button class="btn btn-light">Cancel</button>
                                         </form>
                                     </div>
@@ -267,3 +267,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
         ?>
+
+        <script>
+            function checkVal() {
+                var month = $('#sal_month').val();
+                var catg_id = $('#category').val();
+                if (month > 0 && catg_id > 0) {
+                    return true;
+                } else {
+                    alert('Please fill all fields')
+                    return false;
+                }
+            }
+        </script>

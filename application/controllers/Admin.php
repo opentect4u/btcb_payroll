@@ -125,7 +125,9 @@ class Admin extends CI_Controller
 		if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 			$cnt = $this->Admin_Process->match_name($this->input->post('name'));
-			if ($cnt === 0) {
+			// echo $this->db->last_query();
+			// exit;
+			if ($cnt == 0) {
 				$data_array = array(
 					"name"          =>  $this->input->post('name'),
 					"created_by"    =>  $this->session->userdata['loggedin']['user_id'],
@@ -133,11 +135,14 @@ class Admin extends CI_Controller
 				);
 
 				$this->Admin_Process->f_insert('md_department', $data_array);
+
 				$this->session->set_flashdata('msg', 'Successfully added!');
-				$this->dept();
+				redirect('dept');
+				//$this->dept();
 			} else {
 				$this->session->set_flashdata('msg', 'Name Exist');
-				$this->dept();
+				// $this->dept();
+				redirect('dept');
 			}
 		} else {
 			$this->load->view('post_login/payroll_main');

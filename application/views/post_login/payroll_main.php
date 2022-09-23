@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Benfed Payrol CRM</title>
+  <title>BTCB Payrol CRM</title>
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="<?= base_url() ?>assets/css/style.css">
@@ -14,7 +14,7 @@
   <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
-  <link rel="shortcut icon" href="<?= base_url() ?>assets/images/favicon.png" />
+  <link rel="shortcut icon" href="<?= base_url() ?>assets/images/favicon.ico" />
 
 </head>
 
@@ -42,7 +42,7 @@
               </li>
             </ul>
             <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item dropdown mr-1">
+              <!-- <li class="nav-item dropdown mr-1">
                 <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
                   <i class="mdi mdi-email mx-0"></i>
                 </a>
@@ -132,18 +132,18 @@
                     </div>
                   </a>
                 </div>
-              </li>
+              </li> -->
               <li class="nav-item nav-profile dropdown mr-0 mr-sm-2">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                  <img src="https://via.placeholder.com/40x40" alt="profile" />
-                  <span class="nav-profile-name">Benfed</span>
+                  <img src="<?= base_url() ?>assets/images/benfed.png" alt="profile" />
+                  <span class="nav-profile-name">BTCB</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                   <a class="dropdown-item">
                     <i class="mdi mdi-settings text-primary"></i>
                     Settings
                   </a>
-                  <a class="dropdown-item">
+                  <a class="dropdown-item" href="<?php echo site_url("Payroll_Login/logout") ?>">
                     <i class="mdi mdi-logout text-primary"></i>
                     Logout
                   </a>
@@ -262,10 +262,14 @@
               <i class="menu-arrow"></i></a>
               <div class="submenu">
                 <ul class="submenu-item">
-                  <li class="nav-item"><a href="<?php echo site_url("profile") ?>">Change Password</a></li>
+                  <!-- <li class="nav-item"><a href="<?php //echo site_url("profile") 
+                                                      ?>">Change Password</a></li> -->
+                  <li class="nav-item"><a href="#">Change Password</a></li>
                   <?php if ($this->session->userdata['loggedin']['user_type'] != "U") {
                   ?>
-                    <li class="nav-item"> <a href="<?php echo site_url('admin/user'); ?>">Create User</a></li>
+                    <!-- <li class="nav-item"> <a href="<?php //echo site_url('admin/user'); 
+                                                        ?>">Create User</a></li> -->
+                    <li class="nav-item"> <a href="#">Create User</a></li>
                   <?php } ?>
                 </ul>
               </div>

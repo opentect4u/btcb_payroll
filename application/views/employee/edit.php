@@ -31,8 +31,8 @@
                                                     <?php foreach ($category_dtls as $c_list) {
 
                                                     ?>
-                                                        <option value="<?php echo $c_list->category_code ?>" <?php echo ($employee_dtls->emp_catg == $c_list->category_code) ? 'selected' : ''; ?>>
-                                                            <?php echo $c_list->category_type; ?>
+                                                        <option value="<?php echo $c_list->id ?>" <?php echo ($employee_dtls->emp_catg == $c_list->id) ? 'selected' : ''; ?>>
+                                                            <?php echo $c_list->category; ?>
                                                         </option>
 
                                                     <?php
@@ -115,11 +115,13 @@
                                                 <label for="exampleInputName1">Department:</label>
                                                 <select class="form-control" name="department" id="department">
                                                     <option value="">Select Department</option>
-                                                    <?php foreach ($dept as $dep) { ?>
-                                                        <option value="<?php echo $dep->id;
-                                                                        if ($dep->id == $employee_dtls->department) echo 'selected'; ?>">
-                                                            <?php echo $dep->name; ?>
-                                                        </option>
+                                                    <?php
+                                                    foreach ($dept as $dep) {
+                                                        $selected = '';
+                                                        if ($dep->id == $employee_dtls->department) {
+                                                            $selected = 'selected';
+                                                        } ?>
+                                                        <option value="<?php echo $dep->id; ?>" <?= $selected ?>><?php echo $dep->name; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>

@@ -131,7 +131,7 @@ class Reports extends CI_Controller
             $totaldeduction['total_deduct'] =   $this->Report_Process->f_get_totaldeduction($this->input->post('from_date'), $this->input->post('to_date'));
             //Current Year
             $totaldeduction['year']  =   $this->Report_Process->f_get_particulars("md_parameters", array('param_value'), array('sl_no' => 15), 1);
-            
+
             $this->load->view('post_login/payroll_main');
             $this->load->view("reports/totaldeduction", $totaldeduction);
             $this->load->view('post_login/footer');
@@ -184,7 +184,7 @@ class Reports extends CI_Controller
                 "emp_code"            =>  $this->input->post('emp_cd'),
                 "sal_month"         =>  $this->input->post('sal_month'),
                 "sal_year"          =>  $this->input->post('year'),
-                "approval_status"   =>  'A'
+                "approval_status"   =>  'U'
             );
 
             $payslip['emp_dtls']    =   $this->Report_Process->f_get_particulars("md_employee", NULL, array("emp_code" =>  $this->input->post('emp_cd')), 1);

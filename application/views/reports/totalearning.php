@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
               <div style="text-align:center;">
                 <h3>The Bishnupur Town Co-Operative Bank</h3>
                 <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
-                <h4>Total deduction of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
+                <h4>Total earning of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
                   <!-- <h4>Pay Slip for <?php echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); ?></h4> -->
                 </h4>
               </div>

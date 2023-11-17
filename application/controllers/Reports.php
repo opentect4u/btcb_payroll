@@ -92,7 +92,7 @@ class Reports extends CI_Controller
 			a.catg_id, a.basic, a.da, a.sa, a.hra, a.ta, a.da_on_sa, a.da_on_ta, a.ma, a.cash_swa, a.lwp, a.final_gross, 
 			a.pf, a.adv_agst_hb_prin, a.adv_agst_hb_int, a.adv_agst_hb_const_prin, a.adv_agst_hb_const_int, a.adv_agst_hb_staff_prin, 
 			a.adv_agst_hb_staff_int, a.gross_hb_int, a.adv_agst_of_staff_prin, a.adv_agst_of_staff_int, a.staff_adv_ext_prin, 
-			a.staff_adv_ext_int, a.motor_cycle_prin, a.motor_cycle_int, a.p_tax, a.gici, a.puja_adv, a.income_tax_tds, 
+			a.staff_adv_ext_int, a.staff_bo_loan_prn, a.staff_bo_loan_int, a.staff_pf_loan_prn, a.staff_pf_loan_int, a.staff_med_loan_prn, a.staff_med_loan_int, a.staff_emr_loan_prn, a.staff_emr_loan_int, a.staff_sm_car_loan_prn, a.staff_sm_car_loan_int, a.motor_cycle_prin, a.motor_cycle_int, a.p_tax, a.gici, a.puja_adv, a.income_tax_tds, 
 			a.union_subs, a.tot_diduction, a.net_sal, a.remarks, b.emp_name,b.designation,b.phn_no,b.department,b.pan_no, b.bank_ac_no';
 
             $where  = array(
@@ -187,7 +187,15 @@ class Reports extends CI_Controller
                 "approval_status"   =>  'U'
             );
 
-            $payslip['emp_dtls']    =   $this->Report_Process->f_get_particulars("md_employee", NULL, array("emp_code" =>  $this->input->post('emp_cd')), 1);
+            //$payslip['emp_dtls']    =   $this->Report_Process->f_get_particulars("md_employee", NULL, array("emp_code" =>  $this->input->post('emp_cd')), 1);
+			
+			$emp_whr = array(
+                "a.emp_code" =>  $this->input->post('emp_cd'),
+                "a.department = b.id" => null
+            );
+            $emp_select = 'a.*, b.name dept_name';
+
+            $payslip['emp_dtls']    =   $this->Report_Process->f_get_particulars("md_employee a, md_department b", $emp_select, $emp_whr, 1);
 
             $payslip['payslip_dtls']    =   $this->Report_Process->f_get_emp_dtls($empno, $sal_month, $sal_yr);
             // $payslip['payslip_dtls']=   $this->Report_Process->f_get_particulars("td_pay_slip", NULL, $where, 1);

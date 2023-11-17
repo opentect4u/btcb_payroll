@@ -17,6 +17,9 @@
 
     }
 </script>
+<style>
+td.left_algn { text-align: left; } td.right_algn { text-align: right; padding-right: 15px;}
+</style>
 
 <?php
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
@@ -29,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                         <div class="col-2 payslip_logo_Uts"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
                         <div class="col-10 payslip_logo_Desc_Uts">
                             <h3>The Bishnupur Town Co-Operative Bank</h3>
-                            <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
+                            <h4>Thanagora, Bishnupur, Bankura, West Bengal 722122</h4>
                             <h4>Pay Slip for <?php echo MONTHS[$this->input->post('sal_month')] . '-' . $this->input->post('year'); ?></h4>
                             <h4><?php echo $payslip_dtls->emp_name; ?></h4>
 
@@ -73,9 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                             <td>Date of Retirement
                                                 <!-- <td></td> -->
                                             <td class="left_algn">:</td>
-                                            <td><?php if (($emp_dtls->ret_dt != "0000-00-00") && ($emp_dtls->ret_dt != NULL)) {
-                                                    echo date('d-m-Y', strtotime($emp_dtls->ret_dt));
-                                                } ?></td>
+                                            <td><?php echo date_format(date_create($emp_dtls->ret_dt), 'd-m-Y');//date('d-m-Y', strtotime('2038-03-31'));//date('d-m-Y', $emp_dtls->ret_dt); ?></td>
                                         </tr>
                                         <tr>
                                             <td>Phone Number</td>
@@ -90,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                         <tr>
                                             <td>Department</td>
                                             <td class="left_algn">:</td>
-                                            <td class="left_algn"><?php echo $payslip_dtls->department; ?></td>
+                                            <td class="left_algn"><?php echo $emp_dtls->dept_name; ?></td>
                                             <td></td>
                                             <td>Pan No</td>
                                             <td class="left_algn">:</td>
@@ -194,6 +195,78 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                             <td>Int.</td>
                                             <td class="right_algn"><?= $payslip_dtls->staff_adv_ext_int; ?></td>
                                         </tr>
+                                        <!-- NEWLY ADDED LOAN -->
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Staff Bond Loan</td>
+                                            <td>Prin.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_bo_loan_prn; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn"></td>
+                                            <td>Int.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_bo_loan_int; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Staff PF Loan</td>
+                                            <td>Prin.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_pf_loan_prn; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn"></td>
+                                            <td>Int.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_pf_loan_int; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Staff Medical Loan</td>
+                                            <td>Prin.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_med_loan_prn; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn"></td>
+                                            <td>Int.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_med_loan_int; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Staff Emargency Loan</td>
+                                            <td>Prin.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_emr_loan_prn; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn"></td>
+                                            <td>Int.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_emr_loan_int; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Staff Small Car Loan</td>
+                                            <td>Prin.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_sm_car_loan_prn; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left_algn"></td>
+                                            <td class="right_algn"></td>
+                                            <td class="left_algn"></td>
+                                            <td>Int.</td>
+                                            <td class="right_algn"><?= $payslip_dtls->staff_sm_car_loan_int; ?></td>
+                                        </tr>
+                                        <!-- END -->
                                         <tr>
                                             <td class="left_algn"></td>
                                             <td class="right_algn"></td>
@@ -230,22 +303,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($payslip_dtls)) {
                                             <td class="right_algn"><?= $payslip_dtls->puja_adv; ?></td>
                                         </tr>
                                         <tr>
-                                            <td class="left_algn"></td>
-                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Total Gross</td>
+                                            <td class="right_algn"><?= number_format((float)($payslip_dtls->final_gross + $payslip_dtls->lwp), 2, '.', ''); ?></td>
                                             <td class="left_algn">Income Tax TDS</td>
                                             <td></td>
                                             <td class="right_algn"><?= $payslip_dtls->income_tax_tds; ?></td>
                                         </tr>
                                         <tr>
-                                            <td class="left_algn"></td>
-                                            <td class="right_algn"></td>
+                                            <td class="left_algn">LWP</td>
+                                            <td class="right_algn"><?= $payslip_dtls->lwp ?></td>
                                             <td class="left_algn">Union Subscription</td>
                                             <td></td>
                                             <td class="right_algn"><?= $payslip_dtls->union_subs; ?></td>
                                         </tr>
                                         <tr>
-                                            <td class="left_algn"></td>
-                                            <td class="right_algn"></td>
+                                            <td class="left_algn">Total Gross<br>After Deduction</td>
+                                            <td class="right_algn"><?= $payslip_dtls->final_gross ?></td>
                                             <td class="left_algn">Total Deduction</td>
                                             <td></td>
                                             <td class="right_algn"><?= $payslip_dtls->tot_diduction; ?></td>

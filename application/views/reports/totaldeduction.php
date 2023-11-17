@@ -53,6 +53,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $tot_adv_agst_of_staff_int = 0;
   $tot_staff_adv_ext_prin = 0;
   $tot_staff_adv_ext_int = 0;
+  /* NEWLY ADDED LOAN */
+  $tot_staff_bo_loan_prn = 0;
+  $tot_staff_bo_loan_int = 0;
+  $tot_staff_pf_loan_prn = 0;
+  $tot_staff_pf_loan_int = 0;
+  $tot_staff_med_loan_prn = 0;
+  $tot_staff_med_loan_int = 0;
+  $tot_staff_emr_loan_prn = 0;
+  $tot_staff_emr_loan_int = 0;
+  $tot_staff_sm_car_loan_prn = 0;
+  $tot_staff_sm_car_loan_int = 0;
+  /* END */
   $tot_motor_cycle_prin = 0;
   $tot_motor_cycle_int = 0;
   $tot_p_tax = 0;
@@ -65,20 +77,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" id='divToPrint'>
+          <center>
           <div class="row">
-            <div class="col-1"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
-            <div class="col-10">
-              <div style="text-align:center;">
-                <h3>The Bishnupur Town Co-Operative Bank</h3>
-                <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
-                <h4>Total deduction of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
-                  <!-- <h4>Pay Slip for <?php echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); ?></h4> -->
-                  <!-- <?php echo $year->param_value; ?> -->
-                </h4>
-              </div>
+          <div class="col-2 payslip_logo_Uts"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
+            <div class="col-10 payslip_logo_Desc_Uts">
+              <h3>The Bishnupur Town Co-Operative Bank</h3>
+              <h4>Thanagora, Bishnupur, Bankura, West Bengal 722122</h4>
+              <h4>Total earning of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
+                <!-- <h4>Pay Slip for <?php //echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); 
+                                      ?></h4> -->
+              </h4>
             </div>
           </div>
+          </center>
           <div class="row">
             <div class="col-12">
               <div class="table-responsive">
@@ -96,6 +108,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <th rowspan="2">Gross <br>H.B. Interest</th>
                       <th colspan="2">Staff Advance</th>
                       <th colspan="2">Staff Advance <br>Extension</th>
+                      <!-- NEWLY ADDED LOAN -->
+                      <th colspan="2">Staff Bond <br>Loan</th>
+                      <th colspan="2">Staff PF <br>Loan</th>
+                      <th colspan="2">Staff Medical <br>Loan</th>
+                      <th colspan="2">Staff Emargency <br>Loan</th>
+                      <th colspan="2">Staff Small <br>Car Loan</th>
+                      <!-- END -->
                       <th colspan="2">Motor Cycle, <br>T.V. etc. Loan</th>
                       <th rowspan="2">Prof. Tax</th>
                       <th rowspan="2">G.I.C.I.</th>
@@ -105,6 +124,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <th rowspan="2">Total <br>Deduction</th>
                     </tr>
                     <tr>
+                      <th>Prin.</th>
+                      <th>Int.</th>
+                      <th>Prin.</th>
+                      <th>Int.</th>
+                      <th>Prin.</th>
+                      <th>Int.</th>
+                      <th>Prin.</th>
+                      <th>Int.</th>
+                      <th>Prin.</th>
+                      <th>Int.</th>
                       <th>Prin.</th>
                       <th>Int.</th>
                       <th>Prin.</th>
@@ -145,6 +174,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $tot_adv_agst_of_staff_int += $td_list->adv_agst_of_staff_int;
                         $tot_staff_adv_ext_prin += $td_list->staff_adv_ext_prin;
                         $tot_staff_adv_ext_int += $td_list->staff_adv_ext_int;
+                        /* NEWLY ADDED LOAN */
+                        $tot_staff_bo_loan_prn += $td_list->staff_bo_loan_prn;
+                        $tot_staff_bo_loan_int += $td_list->staff_bo_loan_int;
+                        $tot_staff_pf_loan_prn += $td_list->staff_pf_loan_prn;
+                        $tot_staff_pf_loan_int += $td_list->staff_pf_loan_int;
+                        $tot_staff_med_loan_prn += $td_list->staff_med_loan_prn;
+                        $tot_staff_med_loan_int += $td_list->staff_med_loan_int;
+                        $tot_staff_emr_loan_prn += $td_list->staff_emr_loan_prn;
+                        $tot_staff_emr_loan_int += $td_list->staff_emr_loan_int;
+                        $tot_staff_sm_car_loan_prn += $td_list->staff_sm_car_loan_prn;
+                        $tot_staff_sm_car_loan_int += $td_list->staff_sm_car_loan_int;
+                        /* END */
                         $tot_motor_cycle_prin += $td_list->motor_cycle_prin;
                         $tot_motor_cycle_int += $td_list->motor_cycle_int;
                         $tot_p_tax += $td_list->p_tax;
@@ -172,6 +213,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                           <td><?= $td_list->adv_agst_of_staff_int; ?></td>
                           <td><?= $td_list->staff_adv_ext_prin; ?></td>
                           <td><?= $td_list->staff_adv_ext_int; ?></td>
+                          <!-- NEWLY ADDED LOAN -->
+                          <td><?= $td_list->staff_bo_loan_prn; ?></td>
+                          <td><?= $td_list->staff_bo_loan_int; ?></td>
+                          <td><?= $td_list->staff_pf_loan_prn; ?></td>
+                          <td><?= $td_list->staff_pf_loan_int; ?></td>
+                          <td><?= $td_list->staff_med_loan_prn; ?></td>
+                          <td><?= $td_list->staff_med_loan_int; ?></td>
+                          <td><?= $td_list->staff_emr_loan_prn; ?></td>
+                          <td><?= $td_list->staff_emr_loan_int; ?></td>
+                          <td><?= $td_list->staff_sm_car_loan_prn; ?></td>
+                          <td><?= $td_list->staff_sm_car_loan_int; ?></td>
+                          <!-- END -->
                           <td><?= $td_list->motor_cycle_prin; ?></td>
                           <td><?= $td_list->motor_cycle_int; ?></td>
                           <td><?= $td_list->p_tax; ?></td>
@@ -204,6 +257,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <td><?= $tot_adv_agst_of_staff_int; ?></td>
                         <td><?= $tot_staff_adv_ext_prin; ?></td>
                         <td><?= $tot_staff_adv_ext_int; ?></td>
+                        <!-- NEWLY ADDED LOAN -->
+                        <td><?= $tot_staff_bo_loan_prn ?></td>
+                        <td><?= $tot_staff_bo_loan_int ?></td>
+                        <td><?= $tot_staff_pf_loan_prn ?></td>
+                        <td><?= $tot_staff_pf_loan_int ?></td>
+                        <td><?= $tot_staff_med_loan_prn ?></td>
+                        <td><?= $tot_staff_med_loan_int ?></td>
+                        <td><?= $tot_staff_emr_loan_prn ?></td>
+                        <td><?= $tot_staff_emr_loan_int ?></td>
+                        <td><?= $tot_staff_sm_car_loan_prn ?></td>
+                        <td><?= $tot_staff_sm_car_loan_int ?></td>
+                        <!-- END -->
                         <td><?= $tot_motor_cycle_prin; ?></td>
                         <td><?= $tot_motor_cycle_int; ?></td>
                         <td><?= $tot_p_tax; ?></td>
@@ -248,6 +313,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           </div>
         </div>
       </div>
+	  <center>
+        <button type='button' class="btn btn-primary mt-3" onclick='printDiv();'>Print</button>
+      </center>
     </div>
 
 

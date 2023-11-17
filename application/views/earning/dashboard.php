@@ -37,7 +37,7 @@
                                               <td><?= $sal->effective_date ?></td>
                                               <td><?= $sal->category ?></td>
                                               <td><?= $sal->final_gross ?></td>
-                                              <td><a href="slryad?catg_id=<?= $sal->catg_id ?>&sys_dt=<?= $sal->effective_date ?>" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                              <td><a href="slryad?catg_id=<?= $sal->catg_id ?>&sys_dt=<?= $sal->effective_date ?>&flag=1" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                                       <i class="fa fa-edit fa-2x" style="color: #007bff"></i>
                                                   </a></td>
                                           </tr>

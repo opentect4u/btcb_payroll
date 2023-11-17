@@ -85,7 +85,7 @@ class Approves extends CI_Controller
 
     function save_sal_slip($data)
     {
-        $url = 'http://localhost:3000';
+        $url = 'https://restaurantapi.opentech4u.co.in';
         $curl = curl_init();
 
         curl_setopt_array($curl, array(

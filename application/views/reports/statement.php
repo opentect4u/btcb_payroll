@@ -77,6 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                             <th rowspan="2">Gross <br>H.B. Interest</th>
                                             <th colspan="2">Staff Advance</th>
                                             <th colspan="2">Staff Advance <br>Extension</th>
+                                            <!-- NEWLY ADDED LOAN -->
+                                            <th colspan="2">Staff Bond <br>Loan</th>
+                                            <th colspan="2">Staff PF <br>Loan</th>
+                                            <th colspan="2">Staff Medical <br>Loan</th>
+                                            <th colspan="2">Staff Emargency <br>Loan</th>
+                                            <th colspan="2">Staff Small <br>Car Loan</th>
+                                            <!-- END -->
                                             <th colspan="2">Motor Cycle, <br>T.V. etc. Loan</th>
                                             <th rowspan="2">Prof. Tax</th>
                                             <th rowspan="2">G.I.C.I.</th>
@@ -88,6 +95,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                             <th rowspan="2">Bank A/C No.</th>
                                         </tr>
                                         <tr>
+                                            <th>Prin.</th>
+                                            <th>Int.</th>
+                                            <th>Prin.</th>
+                                            <th>Int.</th>
+                                            <th>Prin.</th>
+                                            <th>Int.</th>
+                                            <th>Prin.</th>
+                                            <th>Int.</th>
+                                            <th>Prin.</th>
+                                            <th>Int.</th>
                                             <th>Prin.</th>
                                             <th>Int.</th>
                                             <th>Prin.</th>
@@ -139,6 +156,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     <td><?= $s_list->adv_agst_of_staff_int; ?></td>
                                                     <td><?= $s_list->staff_adv_ext_prin; ?></td>
                                                     <td><?= $s_list->staff_adv_ext_int; ?></td>
+                                                    <!-- NEWLY ADDED LOAN -->
+                                                    <td><?= $s_list->staff_bo_loan_prn; ?></td>
+                                                    <td><?= $s_list->staff_bo_loan_int; ?></td>
+                                                    <td><?= $s_list->staff_pf_loan_prn; ?></td>
+                                                    <td><?= $s_list->staff_pf_loan_int; ?></td>
+                                                    <td><?= $s_list->staff_med_loan_prn; ?></td>
+                                                    <td><?= $s_list->staff_med_loan_int; ?></td>
+                                                    <td><?= $s_list->staff_emr_loan_prn; ?></td>
+                                                    <td><?= $s_list->staff_emr_loan_int; ?></td>
+                                                    <td><?= $s_list->staff_sm_car_loan_prn; ?></td>
+                                                    <td><?= $s_list->staff_sm_car_loan_int; ?></td>
+                                                    <!-- END -->
                                                     <td><?= $s_list->motor_cycle_prin; ?></td>
                                                     <td><?= $s_list->motor_cycle_int; ?></td>
                                                     <td><?= $s_list->p_tax; ?></td>

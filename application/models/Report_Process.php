@@ -79,14 +79,15 @@ class Report_Process extends CI_Model
 		SUM(a.adv_agst_hb_const_prin)adv_agst_hb_const_prin, SUM(a.adv_agst_hb_const_int)adv_agst_hb_const_int, 
 		SUM(a.adv_agst_hb_staff_prin)adv_agst_hb_staff_prin, SUM(a.adv_agst_hb_staff_int)adv_agst_hb_staff_int, 
 		SUM(a.gross_hb_int)gross_hb_int, SUM(a.adv_agst_of_staff_prin)adv_agst_of_staff_prin, SUM(a.adv_agst_of_staff_int)adv_agst_of_staff_int, 
-		SUM(a.staff_adv_ext_prin)staff_adv_ext_prin, SUM(a.staff_adv_ext_int)staff_adv_ext_int,
-		 SUM(a.motor_cycle_prin)motor_cycle_prin, SUM(a.motor_cycle_int)motor_cycle_int, SUM(a.p_tax)p_tax,
-		  SUM(a.gici)gici, SUM(a.puja_adv)puja_adv, SUM(a.income_tax_tds)income_tax_tds, SUM(a.union_subs)union_subs, 
-		  SUM(a.tot_diduction)tot_diduction, b.emp_name');
+		SUM(a.staff_adv_ext_prin)staff_adv_ext_prin, SUM(a.staff_adv_ext_int)staff_adv_ext_int, SUM(a.staff_bo_loan_prn)staff_bo_loan_prn, SUM(a.staff_bo_loan_int)staff_bo_loan_int, SUM(a.staff_pf_loan_prn)staff_pf_loan_prn, SUM(a.staff_pf_loan_int)staff_pf_loan_int, SUM(a.staff_med_loan_prn)staff_med_loan_prn, SUM(a.staff_med_loan_int)staff_med_loan_int, SUM(a.staff_emr_loan_prn)staff_emr_loan_prn, SUM(a.staff_emr_loan_int)staff_emr_loan_int, SUM(a.staff_sm_car_loan_prn)staff_sm_car_loan_prn, SUM(a.staff_sm_car_loan_int)staff_sm_car_loan_int,
+		SUM(a.motor_cycle_prin)motor_cycle_prin, SUM(a.motor_cycle_int)motor_cycle_int, SUM(a.p_tax)p_tax,
+		SUM(a.gici)gici, SUM(a.puja_adv)puja_adv, SUM(a.income_tax_tds)income_tax_tds, SUM(a.union_subs)union_subs, 
+		SUM(a.tot_diduction)tot_diduction, b.emp_name');
 		$this->db->where(array(
 			'a.emp_code=b.emp_code' => null,
-			'a.trans_date <=' => $from_date,
-			'a.trans_date >=' => $to_date
+			'a.sal_month BETWEEN ' . date('m', strtotime($from_date)) . ' AND ' . date('m', strtotime($to_date)) => null
+			// 'a.trans_date <=' => $from_date,
+			// 'a.trans_date >=' => $to_date
 		));
 		$this->db->group_by('a.emp_code');
 		$query = $this->db->get('td_pay_slip a, md_employee b');
@@ -96,14 +97,14 @@ class Report_Process extends CI_Model
 	public function f_get_totalearning($from_date, $to_date)
 	{
 		$this->db->select('a.emp_code, SUM(a.da) da, SUM(a.sa) sa, SUM(a.hra) hra, SUM(a.ta) ta, 
-		SUM(a.da_on_sa) da_on_sa, SUM(a.da_on_ta) da_on_ta, SUM(a.ma) ma, SUM(a.cash_swa) cash_swa, b.emp_name');
+		SUM(a.da_on_sa) da_on_sa, SUM(a.da_on_ta) da_on_ta, SUM(a.ma) ma, SUM(a.cash_swa) cash_swa, b.emp_name, SUM(a.lwp) lwp, SUM(a.final_gross) final_gross');
 		$this->db->where(array(
 			'a.emp_code=b.emp_code' => null,
-			'a.trans_date <=' => $from_date,
-			'a.trans_date >=' => $to_date
+			'a.sal_month BETWEEN ' . date('m', strtotime($from_date)) . ' AND ' . date('m', strtotime($to_date)) => null
 		));
 		$this->db->group_by('a.emp_code');
 		$query = $this->db->get('td_pay_slip a, md_employee b');
+		//echo $this->db->last_query();exit;
 		return $query->result();
 	}
 
@@ -114,7 +115,7 @@ class Report_Process extends CI_Model
 			a.catg_id, a.basic, a.da, a.sa, a.hra, a.ta, a.da_on_sa, a.da_on_ta, a.ma, a.cash_swa, a.lwp, a.final_gross, 
 			a.pf, a.adv_agst_hb_prin, a.adv_agst_hb_int, a.adv_agst_hb_const_prin, a.adv_agst_hb_const_int, a.adv_agst_hb_staff_prin, 
 			a.adv_agst_hb_staff_int, a.gross_hb_int, a.adv_agst_of_staff_prin, a.adv_agst_of_staff_int, a.staff_adv_ext_prin, 
-			a.staff_adv_ext_int, a.motor_cycle_prin, a.motor_cycle_int, a.p_tax, a.gici, a.puja_adv, a.income_tax_tds, 
+			a.staff_adv_ext_int, a.staff_bo_loan_prn, a.staff_bo_loan_int, a.staff_pf_loan_prn, a.staff_pf_loan_int, a.staff_med_loan_prn, a.staff_med_loan_int, a.staff_emr_loan_prn, a.staff_emr_loan_int, a.staff_sm_car_loan_prn, a.staff_sm_car_loan_int, a.motor_cycle_prin, a.motor_cycle_int, a.p_tax, a.gici, a.puja_adv, a.income_tax_tds, 
 			a.union_subs, a.tot_diduction, a.net_sal, a.remarks, b.emp_name,b.designation,b.phn_no,b.department,b.pan_no
 			  from 
 			  td_pay_slip a,md_employee b where a.emp_code=b.emp_code and a.emp_code = $empno

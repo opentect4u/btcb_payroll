@@ -5,7 +5,7 @@
 </style>
 
 <div class="main-panel">
-    <div class="content-wrapper">
+    <div class="content-wrapper content_wrapper_custom">
         <div class="card">
             <div class="card-body">
                 <h3>Add Deductions</h3>
@@ -13,12 +13,12 @@
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <form method="POST" id="form" action="<?php echo site_url("slrydedad"); ?>?catg_id=<?= $selected['catg_id'] ?>&sys_dt=<?= $selected['sal_date'] ?>">
+                                <form method="POST" id="form" action="<?php echo site_url("slrydedad"); ?>?catg_id=<?= $selected['catg_id'] ?>&sys_dt=<?= $selected['sal_date'] ?>&flag=<?= $selected['sal_flag'] ?>">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-5">
                                                 <label for="exampleInputName1">Date:</label>
-                                                <input type="date" name="sal_date" class="form-control required" id="sal_date" value="<?= $selected['sal_date']; ?>" readonly />
+                                                <input type="date" name="sal_date" class="form-control required" id="sal_date" value="<?= $selected['sal_date']; ?>" />
                                             </div>
                                             <div class="col-5">
                                                 <label for="exampleInputName1">Category:</label>
@@ -64,14 +64,14 @@
                     <div class="row">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body card_bodyCustom">
                                     <form method="POST" id="form" action="<?php echo site_url("slrydedsv"); ?>">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="table-responsive" id='permanent'>
 
                                                     <table class="table table-bordered">
-                                                        <thead>
+                                                        <thead class="fixedHeaderTable">
                                                             <tr>
                                                                 <th>Employee</th>
                                                                 <th>GROSS SALARY (after deduction)</th>
@@ -87,6 +87,18 @@
                                                                 <th <?= $display ?>>Adv. agst of staff with int. Int.</th>
                                                                 <th>Staff Advance Extension Prin.</th>
                                                                 <th>Staff Advance Extension Int.</th>
+                                                                <!-- NEWLY ADDED LOAN -->
+                                                                <th>Staff Bond Loan Prin.</th>
+                                                                <th>Staff Bond Loan Int.</th>
+                                                                <th>Staff PF Loan Prin.</th>
+                                                                <th>Staff PF Loan Int.</th>
+                                                                <th>Staff Medical Loan Prin.</th>
+                                                                <th>Staff Medical Loan Int.</th>
+                                                                <th>Staff Emargency Loan Prin.</th>
+                                                                <th>Staff Emargency Loan Int.</th>
+                                                                <th>Staff Small Car Loan Prin.</th>
+                                                                <th>Staff Small Car Loan Int.</th>
+                                                                <!-- END -->
                                                                 <th <?= $display ?>>Motor Cycle / TV Loan Prin.</th>
                                                                 <th <?= $display ?>>Motor Cycle / TV Loan Int.</th>
                                                                 <th>P.Tax</th>
@@ -113,6 +125,18 @@
                                                             $tot_adv_agst_of_staff_int = 0;
                                                             $tot_staff_adv_ext_prin = 0;
                                                             $tot_staff_adv_ext_int = 0;
+                                                            /* NEWLY ADDED LOAN */
+                                                            $tot_staff_bo_loan_prn = 0;
+                                                            $tot_staff_bo_loan_int = 0;
+                                                            $tot_staff_pf_loan_prn = 0;
+                                                            $tot_staff_pf_loan_int = 0;
+                                                            $tot_staff_med_loan_prn = 0;
+                                                            $tot_staff_med_loan_int = 0;
+                                                            $tot_staff_emr_loan_prn = 0;
+                                                            $tot_staff_emr_loan_int = 0;
+                                                            $tot_staff_sm_car_loan_prn = 0;
+                                                            $tot_staff_sm_car_loan_int = 0;
+                                                            /* END */
                                                             $tot_motor_cycle_prin = 0;
                                                             $tot_motor_cycle_int = 0;
                                                             $tot_p_tax = 0;
@@ -125,27 +149,41 @@
                                                             if ($sal_list) {
                                                                 $i = 0;
                                                                 foreach ($sal_list as $sal) {
-                                                                    $tot_pf += $sal['pf'];
-                                                                    $tot_adv_agst_hb_prin += $sal['adv_agst_hb_prin'];
-                                                                    $tot_adv_agst_hb_int += $sal['adv_agst_hb_int'];
-                                                                    $tot_adv_agst_hb_const_prin += $sal['adv_agst_hb_const_prin'];
-                                                                    $tot_adv_agst_hb_const_int += $sal['adv_agst_hb_const_int'];
-                                                                    $tot_adv_agst_hb_staff_prin += $sal['adv_agst_hb_staff_prin'];
-                                                                    $tot_adv_agst_hb_staff_int += $sal['adv_agst_hb_staff_int'];
-                                                                    $tot_gross_hb_int += $sal['gross_hb_int'];
-                                                                    $tot_adv_agst_of_staff_prin += $sal['adv_agst_of_staff_prin'];
-                                                                    $tot_adv_agst_of_staff_int += $sal['adv_agst_of_staff_int'];
-                                                                    $tot_staff_adv_ext_prin += $sal['staff_adv_ext_prin'];
-                                                                    $tot_staff_adv_ext_int += $sal['staff_adv_ext_int'];
-                                                                    $tot_motor_cycle_prin += $sal['motor_cycle_prin'];
-                                                                    $tot_motor_cycle_int += $sal['motor_cycle_int'];
-                                                                    $tot_p_tax += $sal['p_tax'];
-                                                                    $tot_gici += $sal['gici'];
-                                                                    $tot_puja_adv += $sal['puja_adv'];
-                                                                    $tot_income_tax_tds += $sal['income_tax_tds'];
-                                                                    $tot_union_subs += $sal['union_subs'];
-                                                                    $tot_tot_diduction += $sal['tot_diduction'];
-                                                                    $tot_net_sal += $sal['net_sal'];
+                                                                    if ($sal['gross'] > 0) {
+                                                                        $tot_pf += $sal['pf'];
+                                                                        $tot_adv_agst_hb_prin += $sal['adv_agst_hb_prin'];
+                                                                        $tot_adv_agst_hb_int += $sal['adv_agst_hb_int'];
+                                                                        $tot_adv_agst_hb_const_prin += $sal['adv_agst_hb_const_prin'];
+                                                                        $tot_adv_agst_hb_const_int += $sal['adv_agst_hb_const_int'];
+                                                                        $tot_adv_agst_hb_staff_prin += $sal['adv_agst_hb_staff_prin'];
+                                                                        $tot_adv_agst_hb_staff_int += $sal['adv_agst_hb_staff_int'];
+                                                                        $tot_gross_hb_int += $sal['gross_hb_int'];
+                                                                        $tot_adv_agst_of_staff_prin += $sal['adv_agst_of_staff_prin'];
+                                                                        $tot_adv_agst_of_staff_int += $sal['adv_agst_of_staff_int'];
+                                                                        $tot_staff_adv_ext_prin += $sal['staff_adv_ext_prin'];
+                                                                        $tot_staff_adv_ext_int += $sal['staff_adv_ext_int'];
+                                                                        /* NEWLY ADDED LOAN */
+                                                                        $tot_staff_bo_loan_prn += $sal['staff_bo_loan_prn'];
+                                                                        $tot_staff_bo_loan_int += $sal['staff_bo_loan_int'];
+                                                                        $tot_staff_pf_loan_prn += $sal['staff_pf_loan_prn'];
+                                                                        $tot_staff_pf_loan_int += $sal['staff_pf_loan_int'];
+                                                                        $tot_staff_med_loan_prn += $sal['staff_med_loan_prn'];
+                                                                        $tot_staff_med_loan_int += $sal['staff_med_loan_int'];
+                                                                        $tot_staff_emr_loan_prn += $sal['staff_emr_loan_prn'];
+                                                                        $tot_staff_emr_loan_int += $sal['staff_emr_loan_int'];
+                                                                        $tot_staff_sm_car_loan_prn += $sal['staff_sm_car_loan_prn'];
+                                                                        $tot_staff_sm_car_loan_int += $sal['staff_sm_car_loan_int'];
+                                                                        /* END */
+                                                                        $tot_motor_cycle_prin += $sal['motor_cycle_prin'];
+                                                                        $tot_motor_cycle_int += $sal['motor_cycle_int'];
+                                                                        $tot_p_tax += $sal['p_tax'];
+                                                                        $tot_gici += $sal['gici'];
+                                                                        $tot_puja_adv += $sal['puja_adv'];
+                                                                        $tot_income_tax_tds += $sal['income_tax_tds'];
+                                                                        $tot_union_subs += $sal['union_subs'];
+                                                                        $tot_tot_diduction += $sal['tot_diduction'];
+                                                                        $tot_net_sal += $sal['net_sal'];
+                                                                    }
                                                                     if ($sal['gross'] == 'Fill Income First') {
                                                                         $disabled = 'disabled';
                                                                     } ?>
@@ -221,6 +259,58 @@
                                                                                 <input type="text" class="form-control" name="staff_adv_ext_int[]" id="staff_adv_ext_int_<?= $i ?>" value="<?= $sal['staff_adv_ext_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
+                                                                        <!-- NEWLY ADDED LOAN -->
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_bo_loan_prn[]" id="staff_bo_loan_prn_<?= $i ?>" value="<?= $sal['staff_bo_loan_prn']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_bo_loan_int[]" id="staff_bo_loan_int_<?= $i ?>" value="<?= $sal['staff_bo_loan_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_pf_loan_prn[]" id="staff_pf_loan_prn_<?= $i ?>" value="<?= $sal['staff_pf_loan_prn']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_pf_loan_int[]" id="staff_pf_loan_int_<?= $i ?>" value="<?= $sal['staff_pf_loan_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_med_loan_prn[]" id="staff_med_loan_prn_<?= $i ?>" value="<?= $sal['staff_med_loan_prn']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_med_loan_int[]" id="staff_med_loan_int_<?= $i ?>" value="<?= $sal['staff_med_loan_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_emr_loan_prn[]" id="staff_emr_loan_prn_<?= $i ?>" value="<?= $sal['staff_emr_loan_prn']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_emr_loan_int[]" id="staff_emr_loan_int_<?= $i ?>" value="<?= $sal['staff_emr_loan_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_sm_car_loan_prn[]" id="staff_sm_car_loan_prn_<?= $i ?>" value="<?= $sal['staff_sm_car_loan_prn']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" class="form-control" name="staff_sm_car_loan_int[]" id="staff_sm_car_loan_int_<?= $i ?>" value="<?= $sal['staff_sm_car_loan_int']; ?>" onchange="cal_deduction(<?= $i ?>)" />
+                                                                            </div>
+                                                                        </td>
+                                                                        <!-- END -->
                                                                         <td <?= $display ?>>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="motor_cycle_prin[]" id="motor_cycle_prin_<?= $i ?>" value="<?= $sal['motor_cycle_prin']; ?>" onchange="cal_deduction(<?= $i ?>)" />
@@ -261,7 +351,7 @@
                                                                                 <input type="text" class="form-control" name="tot_diduction[]" id="tot_diduction_<?= $i ?>" value="<?= $sal['tot_diduction']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
                                                                         </td>
-                                                                        <td style="display: none;">
+                                                                        <td>
                                                                             <div class="form-group">
                                                                                 <input type="text" class="form-control" name="net_sal[]" id="net_sal_<?= $i ?>" value="<?= $sal['net_sal']; ?>" onchange="cal_deduction(<?= $i ?>)" />
                                                                             </div>
@@ -286,6 +376,18 @@
                                                                 <td <?= $display ?>><span id="tot_adv_agst_of_staff_int"><?= $tot_adv_agst_of_staff_int ?></span></td>
                                                                 <td><span id="tot_staff_adv_ext_prin"><?= $tot_staff_adv_ext_prin ?></span></td>
                                                                 <td><span id="tot_staff_adv_ext_int"><?= $tot_staff_adv_ext_int ?></span></td>
+                                                                <!-- NEWLY ADDED LOAN -->
+                                                                <td><span id="tot_staff_bo_loan_prn"><?= $tot_staff_bo_loan_prn ?></span></td>
+                                                                <td><span id="tot_staff_bo_loan_int"><?= $tot_staff_bo_loan_int ?></span></td>
+                                                                <td><span id="tot_staff_pf_loan_prn"><?= $tot_staff_pf_loan_prn ?></span></td>
+                                                                <td><span id="tot_staff_pf_loan_int"><?= $tot_staff_pf_loan_int ?></span></td>
+                                                                <td><span id="tot_staff_med_loan_prn"><?= $tot_staff_med_loan_prn ?></span></td>
+                                                                <td><span id="tot_staff_med_loan_int"><?= $tot_staff_med_loan_int ?></span></td>
+                                                                <td><span id="tot_staff_emr_loan_prn"><?= $tot_staff_emr_loan_prn ?></span></td>
+                                                                <td><span id="tot_staff_emr_loan_int"><?= $tot_staff_emr_loan_int ?></span></td>
+                                                                <td><span id="tot_staff_sm_car_loan_prn"><?= $tot_staff_sm_car_loan_prn ?></span></td>
+                                                                <td><span id="tot_staff_sm_car_loan_int"><?= $tot_staff_sm_car_loan_int ?></span></td>
+                                                                <!-- END -->
                                                                 <td <?= $display ?>><span id="tot_motor_cycle_prin"><?= $tot_motor_cycle_prin ?></span></td>
                                                                 <td <?= $display ?>><span id="tot_motor_cycle_int"><?= $tot_motor_cycle_int ?></span></td>
                                                                 <td><span id="tot_p_tax"><?= $tot_p_tax ?></span></td>
@@ -303,6 +405,7 @@
                                         </div>
                                         <input type="hidden" name="sal_date" value="<?= $selected['sal_date']; ?>">
                                         <input type="hidden" name="catg_id" value="<?= $selected['catg_id']; ?>">
+                                        <input type="hidden" name="flag" value="<?= $selected['sal_flag']; ?>">
                                         <div class="mt-3">
                                             <button type="submit" class="btn btn-primary mr-2" <?= $disabled ?>>Submit</button>
                                             <a href="<?= site_url() ?>/slryded" class="btn btn-light">Back</a>
@@ -319,6 +422,53 @@
     </div>
 
     <script>
+        $('#sal_date').on('change', function() {
+            var sal_date = $(this).val()
+            var catg_id = $('#catg_id').val()
+            if (catg_id > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "<?= site_url() ?>/salary/chk_deduction",
+                    data: {
+                        "sal_date": sal_date,
+                        "catg_id": catg_id
+                    },
+                    dataType: 'html',
+                    success: function(result) {
+                        if (result) {
+                            alert("You have already entered this month's deduction");
+                            $('#submit').attr('disabled', 'disabled')
+                        } else {
+                            $('#submit').removeAttr('disabled')
+                        }
+                    }
+                });
+            }
+        })
+        $('#catg_id').on('change', function() {
+            var catg_id = $(this).val()
+            var sal_date = $('#sal_date').val()
+            $.ajax({
+                type: "GET",
+                url: "<?= site_url() ?>/salary/chk_deduction",
+                data: {
+                    "sal_date": sal_date,
+                    "catg_id": catg_id
+                },
+                dataType: 'html',
+                success: function(result) {
+                    if (result) {
+                        alert("You have already entered this month's deduction");
+                        $('#submit').attr('disabled', 'disabled')
+                    } else {
+                        $('#submit').removeAttr('disabled')
+                    }
+                }
+            });
+        })
+    </script>
+
+    <script>
         function cal_deduction(id) {
             var gross = $('#gross_' + id).val();
             var pf = $('#pf_' + id).val();
@@ -333,6 +483,18 @@
             var adv_agst_of_staff_int = $('#adv_agst_of_staff_int_' + id).val();
             var staff_adv_ext_prin = $('#staff_adv_ext_prin_' + id).val();
             var staff_adv_ext_int = $('#staff_adv_ext_int_' + id).val();
+            // NEWLY ADDED LOAN //
+            var staff_bo_loan_prn = $('#staff_bo_loan_prn_' + id).val();
+            var staff_bo_loan_int = $('#staff_bo_loan_int_' + id).val();
+            var staff_pf_loan_prn = $('#staff_pf_loan_prn_' + id).val();
+            var staff_pf_loan_int = $('#staff_pf_loan_int_' + id).val();
+            var staff_med_loan_prn = $('#staff_med_loan_prn_' + id).val();
+            var staff_med_loan_int = $('#staff_med_loan_int_' + id).val();
+            var staff_emr_loan_prn = $('#staff_emr_loan_prn_' + id).val();
+            var staff_emr_loan_int = $('#staff_emr_loan_int_' + id).val();
+            var staff_sm_car_loan_prn = $('#staff_sm_car_loan_prn_' + id).val();
+            var staff_sm_car_loan_int = $('#staff_sm_car_loan_int_' + id).val();
+            // END //
             var motor_cycle_prin = $('#motor_cycle_prin_' + id).val();
             var motor_cycle_int = $('#motor_cycle_int_' + id).val();
             var p_tax = $('#p_tax_' + id).val();
@@ -343,7 +505,9 @@
             var tot_diduction = $('#tot_diduction_' + id).val();
             var net_sal = $('#net_sal_' + id).val();
             var total_did = parseInt(pf) + parseInt(adv_agst_hb_prin) + parseInt(adv_agst_hb_int) + parseInt(adv_agst_hb_const_prin) + parseInt(adv_agst_hb_const_int) + parseInt(adv_agst_hb_staff_prin) + parseInt(adv_agst_hb_staff_int) + parseInt(adv_agst_of_staff_prin) + parseInt(adv_agst_of_staff_int) + parseInt(staff_adv_ext_prin) + parseInt(staff_adv_ext_int) + parseInt(motor_cycle_prin) + parseInt(motor_cycle_int) + parseInt(p_tax) + parseInt(gici) + parseInt(puja_adv) + parseInt(income_tax_tds) + parseInt(union_subs)
-
+            // NEWLY ADDED LOAN //
+            total_did += parseInt(staff_bo_loan_prn) + parseInt(staff_bo_loan_int) + parseInt(staff_pf_loan_prn) + parseInt(staff_pf_loan_int) + parseInt(staff_med_loan_prn) + parseInt(staff_med_loan_int) + parseInt(staff_emr_loan_prn) + parseInt(staff_emr_loan_int) + parseInt(staff_sm_car_loan_prn) + parseInt(staff_sm_car_loan_int);
+            // END //
             var tot_gross_int = parseInt(adv_agst_hb_int) + parseInt(adv_agst_hb_const_int) + parseInt(adv_agst_hb_staff_int)
             $('#gross_hb_int_' + id).val(tot_gross_int)
 
@@ -367,6 +531,18 @@
             var tot_adv_agst_of_staff_int = 0;
             var tot_staff_adv_ext_prin = 0;
             var tot_staff_adv_ext_int = 0;
+            // NEWLY ADDED LOAN //
+            var tot_staff_bo_loan_prn = 0;
+            var tot_staff_bo_loan_int = 0;
+            var tot_staff_pf_loan_prn = 0;
+            var tot_staff_pf_loan_int = 0;
+            var tot_staff_med_loan_prn = 0;
+            var tot_staff_med_loan_int = 0;
+            var tot_staff_emr_loan_prn = 0;
+            var tot_staff_emr_loan_int = 0;
+            var tot_staff_sm_car_loan_prn = 0;
+            var tot_staff_sm_car_loan_int = 0;
+            // END //
             var tot_motor_cycle_prin = 0;
             var tot_motor_cycle_int = 0;
             var tot_p_tax = 0;
@@ -413,6 +589,38 @@
             $('input[name="staff_adv_ext_int[]"]').each(function() {
                 tot_staff_adv_ext_int = parseInt(tot_staff_adv_ext_int) + parseInt(this.value)
             });
+            // NEWLY ADDED LOAN //
+            $('input[name="staff_bo_loan_prn[]"]').each(function() {
+                tot_staff_bo_loan_prn = parseInt(tot_staff_bo_loan_prn) + parseInt(this.value)
+            });
+            $('input[name="staff_bo_loan_int[]"]').each(function() {
+                tot_staff_bo_loan_int = parseInt(tot_staff_bo_loan_int) + parseInt(this.value)
+            });
+            $('input[name="staff_pf_loan_prn[]"]').each(function() {
+                tot_staff_pf_loan_prn = parseInt(tot_staff_pf_loan_prn) + parseInt(this.value)
+            });
+            $('input[name="staff_pf_loan_int[]"]').each(function() {
+                tot_staff_pf_loan_int = parseInt(tot_staff_pf_loan_int) + parseInt(this.value)
+            });
+            $('input[name="staff_med_loan_prn[]"]').each(function() {
+                tot_staff_med_loan_prn = parseInt(tot_staff_med_loan_prn) + parseInt(this.value)
+            });
+            $('input[name="staff_med_loan_int[]"]').each(function() {
+                tot_staff_med_loan_int = parseInt(tot_staff_med_loan_int) + parseInt(this.value)
+            });
+            $('input[name="staff_emr_loan_prn[]"]').each(function() {
+                tot_staff_emr_loan_prn = parseInt(tot_staff_emr_loan_prn) + parseInt(this.value)
+            });
+            $('input[name="staff_emr_loan_int[]"]').each(function() {
+                tot_staff_emr_loan_int = parseInt(tot_staff_emr_loan_int) + parseInt(this.value)
+            });
+            $('input[name="staff_sm_car_loan_prn[]"]').each(function() {
+                tot_staff_sm_car_loan_prn = parseInt(tot_staff_sm_car_loan_prn) + parseInt(this.value)
+            });
+            $('input[name="staff_sm_car_loan_int[]"]').each(function() {
+                tot_staff_sm_car_loan_int = parseInt(tot_staff_sm_car_loan_int) + parseInt(this.value)
+            });
+            // END //            
             $('input[name="motor_cycle_prin[]"]').each(function() {
                 tot_motor_cycle_prin = parseInt(tot_motor_cycle_prin) + parseInt(this.value)
             });
@@ -452,6 +660,18 @@
             $('#tot_adv_agst_of_staff_int').text(tot_adv_agst_of_staff_int);
             $('#tot_staff_adv_ext_prin').text(tot_staff_adv_ext_prin);
             $('#tot_staff_adv_ext_int').text(tot_staff_adv_ext_int);
+            // NEWLY ADDED LOAN //
+            $('#tot_staff_bo_loan_prn').text(tot_staff_bo_loan_prn);
+            $('#tot_staff_bo_loan_int').text(tot_staff_bo_loan_int);
+            $('#tot_staff_pf_loan_prn').text(tot_staff_pf_loan_prn);
+            $('#tot_staff_pf_loan_int').text(tot_staff_pf_loan_int);
+            $('#tot_staff_med_loan_prn').text(tot_staff_med_loan_prn);
+            $('#tot_staff_med_loan_int').text(tot_staff_med_loan_int);
+            $('#tot_staff_emr_loan_prn').text(tot_staff_emr_loan_prn);
+            $('#tot_staff_emr_loan_int').text(tot_staff_emr_loan_int);
+            $('#tot_staff_sm_car_loan_prn').text(tot_staff_sm_car_loan_prn);
+            $('#tot_staff_sm_car_loan_int').text(tot_staff_sm_car_loan_int);
+            // END //            
             $('#tot_motor_cycle_prin').text(tot_motor_cycle_prin);
             $('#tot_motor_cycle_int').text(tot_motor_cycle_int);
             $('#tot_p_tax').text(tot_p_tax);
@@ -468,6 +688,7 @@
         $(document).ready(function() {
             var catg_id = <?= $selected['catg_id'] ?> > 0 ? <?= $selected['catg_id'] ?> : 0;
             if (catg_id > 0) {
+                $('#sal_date').attr('readonly', 'readonly')
                 <?php if (!isset($_REQUEST['submit'])) { ?>
                     $('#submit').click();
                 <?php } ?>

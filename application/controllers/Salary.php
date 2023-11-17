@@ -29,9 +29,11 @@ class Salary extends CI_Controller
     {                 //Add
         $catg_id = $this->input->get('catg_id');
         $sal_dt = $this->input->get('sys_dt');
+        $sal_flag = $this->input->get('flag');
         $selected = array(
             'catg_id' => $catg_id > 0 ? $catg_id : '',
-            'sal_date' => $sal_dt ? $sal_dt : date('Y-m-d')
+            'sal_date' => $sal_dt ? $sal_dt : date('Y-m-d'),
+            'sal_flag' => $sal_flag ? $sal_flag : 0
         );
 
         $sal_list = array();
@@ -94,7 +96,8 @@ class Salary extends CI_Controller
                 }
                 $selected = array(
                     'catg_id' => $this->input->post('catg_id'),
-                    'sal_date' => $this->input->post('sal_date')
+                    'sal_date' => $this->input->post('sal_date'),
+                    'sal_flag' => $sal_flag ? $sal_flag : 0
                 );
             }
         }
@@ -108,15 +111,58 @@ class Salary extends CI_Controller
         $this->load->view('post_login/footer');
     }
 
+    function chk_sal()
+    {
+        $date = $this->input->get('sal_date');
+        $catg_id = $this->input->get('catg_id');
+        $table_name = 'td_income';
+        $select = 'emp_code, effective_date, catg_id';
+        $where = array(
+            'MONTH(effective_date)' => date('m', strtotime($date)),
+            'YEAR(effective_date)' => date('Y', strtotime($date)),
+            'catg_id' => $catg_id
+        );
+        $res_dt = $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
+        if (count($res_dt) > 0) {
+            echo true;
+        } else {
+            echo false;
+        }
+        // var_dump($res_dt);
+    }
+
     function earning_save()
     {
         $data = $this->input->post();
-        if ($this->Salary_Process->earning_save($data)) {
-            $this->session->set_flashdata('msg', 'Successfully Inserted!');
-            redirect('slrydtl');
+        if ($data['flag'] == 0) {
+            $table_name = 'td_income';
+            $select = 'emp_code, effective_date, catg_id';
+            $where = array(
+                'MONTH(effective_date)' => date('m', strtotime($data['sal_date'])),
+                'YEAR(effective_date)' => date('Y', strtotime($data['sal_date'])),
+                'catg_id' => $data['catg_id']
+            );
+            $res_dt = $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
+            if (count($res_dt) > 0) {
+                $this->session->set_flashdata('msg', 'Earning is already exist for this month');
+                redirect('slrydtl');
+            } else {
+                if ($this->Salary_Process->earning_save($data)) {
+                    $this->session->set_flashdata('msg', 'Successfully Inserted!');
+                    redirect('slrydtl');
+                } else {
+                    $this->session->set_flashdata('msg', 'Data Not Inserted!');
+                    redirect('slryad');
+                }
+            }
         } else {
-            $this->session->set_flashdata('msg', 'Data Not Inserted!');
-            redirect('slryad');
+            if ($this->Salary_Process->earning_save($data)) {
+                $this->session->set_flashdata('msg', 'Successfully Inserted!');
+                redirect('slrydtl');
+            } else {
+                $this->session->set_flashdata('msg', 'Data Not Inserted!');
+                redirect('slryad');
+            }
         }
     }
 
@@ -254,9 +300,11 @@ class Salary extends CI_Controller
     {                       //Add Dedcutions
         $catg_id = $this->input->get('catg_id');
         $sal_dt = $this->input->get('sys_dt');
+        $sal_flag = $this->input->get('flag');
         $selected = array(
             'catg_id' => $catg_id > 0 ? $catg_id : '',
-            'sal_date' => $sal_dt ? $sal_dt : date('Y-m-d')
+            'sal_date' => $sal_dt ? $sal_dt : date('Y-m-d'),
+            'sal_flag' => $sal_flag ? $sal_flag : 0
         );
 
         $sal_list = array();
@@ -284,6 +332,16 @@ class Salary extends CI_Controller
                         'adv_agst_of_staff_int' => $dt->adv_agst_of_staff_int,
                         'staff_adv_ext_prin' => $dt->staff_adv_ext_prin,
                         'staff_adv_ext_int' => $dt->staff_adv_ext_int,
+                        'staff_bo_loan_prn' => $dt->staff_bo_loan_prn,
+                        'staff_bo_loan_int' => $dt->staff_bo_loan_int,
+                        'staff_pf_loan_prn' => $dt->staff_pf_loan_prn,
+                        'staff_pf_loan_int' => $dt->staff_pf_loan_int,
+                        'staff_med_loan_prn' => $dt->staff_med_loan_prn,
+                        'staff_med_loan_int' => $dt->staff_med_loan_int,
+                        'staff_emr_loan_prn' => $dt->staff_emr_loan_prn,
+                        'staff_emr_loan_int' => $dt->staff_emr_loan_int,
+                        'staff_sm_car_loan_prn' => $dt->staff_sm_car_loan_prn,
+                        'staff_sm_car_loan_int' => $dt->staff_sm_car_loan_int,
                         'motor_cycle_prin' => $dt->motor_cycle_prin,
                         'motor_cycle_int' => $dt->motor_cycle_int,
                         'p_tax' => $dt->p_tax,
@@ -308,7 +366,8 @@ class Salary extends CI_Controller
                     $sal = $this->Salary_Process->get_last_gross($emp->emp_code);
                     // var_dump($sal);
                     // exit;
-                    $pf_val = $sal ? round((($sal->basic + $sal->da) * $sal_cal->da) / 100) : 'Fill Income First';
+                    //$pf_val = $sal ? round((($sal->basic + $sal->da) * $sal_cal->da) / 100) : 'Fill Income First';
+					$pf_val = $sal ? round(($sal->final_gross * $sal_cal->pf) / 100) : 'Fill Income First';
                     $pf = $pf_val > $sal_cal->pf_max ? $sal_cal->pf_max : ($pf_val < $sal_cal->pf_min ? $sal_cal->pf_min : $pf_val);
                     // var_dump($pf_val);
                     // exit;
@@ -334,6 +393,16 @@ class Salary extends CI_Controller
                         'adv_agst_of_staff_int' => 0,
                         'staff_adv_ext_prin' => 0,
                         'staff_adv_ext_int' => 0,
+                        'staff_bo_loan_prn' => 0,
+                        'staff_bo_loan_int' => 0,
+                        'staff_pf_loan_prn' => 0,
+                        'staff_pf_loan_int' => 0,
+                        'staff_med_loan_prn' => 0,
+                        'staff_med_loan_int' => 0,
+                        'staff_emr_loan_prn' => 0,
+                        'staff_emr_loan_int' => 0,
+                        'staff_sm_car_loan_prn' => 0,
+                        'staff_sm_car_loan_int' => 0,
                         'motor_cycle_prin' => 0,
                         'motor_cycle_int' => 0,
                         'p_tax' => $ptax,
@@ -348,7 +417,8 @@ class Salary extends CI_Controller
                 }
                 $selected = array(
                     'catg_id' => $this->input->post('catg_id'),
-                    'sal_date' => $this->input->post('sal_date')
+                    'sal_date' => $this->input->post('sal_date'),
+                    'sal_flag' => $sal_flag ? $sal_flag : 0
                 );
             }
         }
@@ -362,15 +432,58 @@ class Salary extends CI_Controller
         $this->load->view('post_login/footer');
     }
 
+    function chk_deduction()
+    {
+        $date = $this->input->get('sal_date');
+        $catg_id = $this->input->get('catg_id');
+        $table_name = 'td_deductions';
+        $select = 'emp_code, effective_date, catg_id';
+        $where = array(
+            'MONTH(effective_date)' => date('m', strtotime($date)),
+            'YEAR(effective_date)' => date('Y', strtotime($date)),
+            'catg_id' => $catg_id
+        );
+        $res_dt = $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
+        if (count($res_dt) > 0) {
+            echo true;
+        } else {
+            echo false;
+        }
+        // var_dump($res_dt);
+    }
+
     function deduction_save()
     {
         $data = $this->input->post();
-        if ($this->Salary_Process->deduction_save($data)) {
-            $this->session->set_flashdata('msg', 'Successfully Inserted!');
-            redirect('slryded');
+        if ($data['flag'] == 0) {
+            $table_name = 'td_deductions';
+            $select = 'emp_code, effective_date, catg_id';
+            $where = array(
+                'MONTH(effective_date)' => date('m', strtotime($data['sal_date'])),
+                'YEAR(effective_date)' => date('Y', strtotime($data['sal_date'])),
+                'catg_id' => $data['catg_id']
+            );
+            $res_dt = $this->Admin_Process->f_get_particulars($table_name, $select, $where, 0);
+            if (count($res_dt) > 0) {
+                $this->session->set_flashdata('msg', 'Deduction is already exist for this month');
+                redirect('slryded');
+            } else {
+                if ($this->Salary_Process->deduction_save($data)) {
+                    $this->session->set_flashdata('msg', 'Successfully Inserted!');
+                    redirect('slryded');
+                } else {
+                    $this->session->set_flashdata('msg', 'Data Not Inserted!');
+                    redirect('slrydedad');
+                }
+            }
         } else {
-            $this->session->set_flashdata('msg', 'Data Not Inserted!');
-            redirect('slrydedad');
+            if ($this->Salary_Process->deduction_save($data)) {
+                $this->session->set_flashdata('msg', 'Successfully Inserted!');
+                redirect('slryded');
+            } else {
+                $this->session->set_flashdata('msg', 'Data Not Inserted!');
+                redirect('slrydedad');
+            }
         }
     }
 
@@ -553,8 +666,9 @@ class Salary extends CI_Controller
     {
 
         $category = $this->input->post('category');
-        $max_year =   $this->Salary_Process->f_get_particulars("td_salary", NULL, array("approval_status" => 'A', 'catg_cd' => $category, '1 order by sal_year,sal_month desc limit 1' => NULL), 1);
+        $max_year =   $this->Salary_Process->f_get_particulars("td_salary", NULL, array("approval_status" => 'A', 'catg_cd' => $category, '1 ORDER BY sal_year DESC, sal_month DESC limit 1' => NULL), 1);
         // echo '<pre>';
+        // echo $this->db->last_query();
         // var_dump($max_year);
         // exit;
         if ($max_year) {
@@ -663,6 +777,16 @@ class Salary extends CI_Controller
                             'adv_agst_of_staff_int' => $deduction_dt->adv_agst_of_staff_int,
                             'staff_adv_ext_prin' => $deduction_dt->staff_adv_ext_prin,
                             'staff_adv_ext_int' => $deduction_dt->staff_adv_ext_int,
+                            'staff_bo_loan_prn' => $deduction_dt->staff_bo_loan_prn,
+                            'staff_bo_loan_int' => $deduction_dt->staff_bo_loan_int,
+                            'staff_pf_loan_prn' => $deduction_dt->staff_pf_loan_prn,
+                            'staff_pf_loan_int' => $deduction_dt->staff_pf_loan_int,
+                            'staff_med_loan_prn' => $deduction_dt->staff_med_loan_prn,
+                            'staff_med_loan_int' => $deduction_dt->staff_med_loan_int,
+                            'staff_emr_loan_prn' => $deduction_dt->staff_emr_loan_prn,
+                            'staff_emr_loan_int' => $deduction_dt->staff_emr_loan_int,
+                            'staff_sm_car_loan_prn' => $deduction_dt->staff_sm_car_loan_prn,
+                            'staff_sm_car_loan_int' => $deduction_dt->staff_sm_car_loan_int,
                             'motor_cycle_prin' => $deduction_dt->motor_cycle_prin,
                             'motor_cycle_int' => $deduction_dt->motor_cycle_int,
                             'p_tax' => $deduction_dt->p_tax,

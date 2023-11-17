@@ -5,7 +5,7 @@
 </style>
 
 <div class="main-panel">
-    <div class="content-wrapper">
+    <div class="content-wrapper content_wrapper_custom">
         <div class="card">
             <div class="card-body">
                 <h3>Add Earnings</h3>
@@ -13,12 +13,12 @@
                     <div class="col-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <form method="POST" id="form" action="<?php echo site_url("slryad"); ?>?catg_id=<?= $selected['catg_id'] ?>&sys_dt=<?= $selected['sal_date'] ?>">
+                                <form method="POST" id="form" action="<?php echo site_url("slryad"); ?>?catg_id=<?= $selected['catg_id'] ?>&sys_dt=<?= $selected['sal_date'] ?>&flag=<?= $selected['sal_flag'] ?>">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-5">
                                                 <label for="exampleInputName1">Date:</label>
-                                                <input type="date" name="sal_date" class="form-control required" id="sal_date" value="<?= $selected['sal_date']; ?>" readonly />
+                                                <input type="date" name="sal_date" class="form-control required" id="sal_date" value="<?= $selected['sal_date']; ?>" />
                                             </div>
                                             <div class="col-5">
                                                 <label for="exampleInputName1">Category:</label>
@@ -64,14 +64,14 @@
                     <div class="row">
                         <div class="col-12 grid-margin stretch-card">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body card_bodyCustom">
                                     <form method="POST" id="form" action="<?php echo site_url("salsv"); ?>">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="table-responsive" id='permanent'>
 
                                                     <table class="table">
-                                                        <thead>
+                                                        <thead class="fixedHeaderTable">
                                                             <tr>
                                                                 <th>Emp name</th>
                                                                 <th>Basic</th>
@@ -214,6 +214,7 @@
                                         </div>
                                         <input type="hidden" name="sal_date" value="<?= $selected['sal_date']; ?>">
                                         <input type="hidden" name="catg_id" value="<?= $selected['catg_id']; ?>">
+                                        <input type="hidden" name="flag" value="<?= $selected['sal_flag']; ?>">
                                         <div class="mt-3">
                                             <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                             <a href="<?= site_url() ?>/slrydtl" class="btn btn-light">Back</a>
@@ -230,12 +231,59 @@
     </div>
 
     <script>
+        $('#sal_date').on('change', function() {
+            var sal_date = $(this).val()
+            var catg_id = $('#catg_id').val()
+            if (catg_id > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "<?= site_url() ?>/salary/chk_sal",
+                    data: {
+                        "sal_date": sal_date,
+                        "catg_id": catg_id
+                    },
+                    dataType: 'html',
+                    success: function(result) {
+                        if (result) {
+                            alert("You have already entered this month's earning");
+                            $('#submit').attr('disabled', 'disabled')
+                        } else {
+                            $('#submit').removeAttr('disabled')
+                        }
+                    }
+                });
+            }
+        })
+        $('#catg_id').on('change', function() {
+            var catg_id = $(this).val()
+            var sal_date = $('#sal_date').val()
+            $.ajax({
+                type: "GET",
+                url: "<?= site_url() ?>/salary/chk_sal",
+                data: {
+                    "sal_date": sal_date,
+                    "catg_id": catg_id
+                },
+                dataType: 'html',
+                success: function(result) {
+                    if (result) {
+                        alert("You have already entered this month's earning");
+                        $('#submit').attr('disabled', 'disabled')
+                    } else {
+                        $('#submit').removeAttr('disabled')
+                    }
+                }
+            });
+        })
+    </script>
+
+    <script>
         function cash_cal(id) {
             var cash_val = $('#cash_swa_' + id).val();
             var gross_val = $('#gross_' + id).val();
-            var final_gross = $('#final_gross_' + id).val();
+            var gross = $('#final_gross_' + id).val();
             $('#gross_' + id).val(parseInt(cash_val) + parseInt(gross_val))
-            $('#final_gross_' + id).val(parseInt(cash_val) + parseInt(final_gross))
+            $('#final_gross_' + id).val(parseInt(cash_val) + parseInt(gross))
             var final_gross = 0;
             $('input[name="final_gross[]"]').each(function() {
                 final_gross = parseInt(final_gross) + parseInt(this.value);
@@ -246,24 +294,32 @@
                 tot_cash_swa = parseInt(tot_cash_swa) + parseInt(this.value);
             })
             $('#tot_cash_swa').text(tot_cash_swa)
+			
+			var tot_gross = 0
+			$('input[name="gross[]"]').each(function() {
+                tot_gross = parseInt(tot_gross) + parseInt(this.value);
+            })
+			$('#tot_gross').text(tot_gross);
 
             // console.log(final_gross);
         }
 
         function lwp_cal(id) {
             var lwp_val = $('#lwp_' + id).val();
-            var final_gross = $('#final_gross_' + id).val();
-            $('#final_gross_' + id).val(parseInt(final_gross) - parseInt(lwp_val))
+            //var final_gross = $('#final_gross_' + id).val();
+			var gross = $('#gross_' + id).val();
+            $('#final_gross_' + id).val(parseInt(gross) - parseInt(lwp_val))
             var final_gross = 0;
             $('input[name="final_gross[]"]').each(function() {
                 final_gross = parseInt(final_gross) + parseInt(this.value);
             })
-            $('#tot_gross').text(final_gross)
+            $('#tot_final_gross').text(final_gross)
             var tot_lwp = 0;
             $('input[name="lwp[]"]').each(function() {
                 tot_lwp = parseInt(tot_lwp) + parseInt(this.value);
             })
             $('#tot_lwp').text(tot_lwp)
+	    //$('#tot_final_gross').text(final_gross - tot_lwp)
         }
     </script>
 
@@ -271,6 +327,7 @@
         $(document).ready(function() {
             var catg_id = <?= $selected['catg_id'] ?> > 0 ? <?= $selected['catg_id'] ?> : 0;
             if (catg_id > 0) {
+                $('#sal_date').attr('readonly', 'readonly')
                 <?php if (!isset($_REQUEST['submit'])) { ?>
                     $('#submit').click();
                 <?php } ?>

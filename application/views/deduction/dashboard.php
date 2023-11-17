@@ -37,7 +37,7 @@
                                               <td><?= $ded->effective_date ?></td>
                                               <td><?= $ded->category ?></td>
                                               <td><?= $ded->net_sal ?></td>
-                                              <td><a href="slrydedad?catg_id=<?= $ded->catg_id ?>&sys_dt=<?= $ded->effective_date ?>" data-toggle="tooltip" data-placement="bottom" title="Edit">
+                                              <td><a href="slrydedad?catg_id=<?= $ded->catg_id ?>&sys_dt=<?= $ded->effective_date ?>&flag=1" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                                       <i class="fa fa-edit fa-2x" style="color: #007bff"></i>
                                                   </a></td>
                                           </tr>

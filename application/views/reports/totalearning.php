@@ -49,23 +49,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $tot_da_on_ta = 0;
   $tot_ma = 0;
   $tot_cash_swa = 0;
+  $tot_lwp = 0;
+  $tot_final_gross = 0;
 ?>
   <div class="main-panel">
     <div class="content-wrapper">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body" id='divToPrint'>
+<center>
           <div class="row">
-            <div class="col-1"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
-            <div class="col-10">
-              <div style="text-align:center;">
-                <h3>The Bishnupur Town Co-Operative Bank</h3>
-                <h4>38JC+226, Kalindibandh, Bishnupur, West Bengal 722122</h4>
-                <h4>Total earning of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
-                  <!-- <h4>Pay Slip for <?php echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); ?></h4> -->
-                </h4>
-              </div>
+            <div class="col-2 payslip_logo_Uts"><a href="javascript:void()"><img src="<?= base_url() ?>assets/images/benfed.png" alt="logo" /></a></div>
+            <div class="col-10 payslip_logo_Desc_Uts">
+              <h3>The Bishnupur Town Co-Operative Bank</h3>
+              <h4>Thanagora, Bishnupur, Bankura, West Bengal 722122</h4>
+              <h4>Total earning of Regular employees From <?php echo date('d/m/Y', strtotime($this->input->post('from_date'))) . ' To ' . date('d/m/Y', strtotime($this->input->post('to_date'))); ?>
+                <!-- <h4>Pay Slip for <?php //echo date($this->input->post('sal_month'), "d/m/Y") . '-' . $this->input->post('year'); 
+                                      ?></h4> -->
+              </h4>
             </div>
           </div>
+</center>
           <div class="row">
             <div class="col-12">
               <div class="table-responsive">
@@ -82,6 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                       <th>D.A. on T.A.</th>
                       <th>M.A.</th>
                       <th>Cash / <br>S.W. Allowance</th>
+                      <th>LWP</th>
+                      <th>Final Gross</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -97,6 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $tot_da_on_ta += $td_list->da_on_ta;
                         $tot_ma += $td_list->ma;
                         $tot_cash_swa += $td_list->cash_swa;
+                        $tot_lwp += $td_list->lwp;
+                        $tot_final_gross += $td_list->final_gross;
 
                     ?>
                         <tr>
@@ -110,6 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                           <td><?= $td_list->da_on_ta; ?></td>
                           <td><?= $td_list->ma; ?></td>
                           <td><?= $td_list->cash_swa; ?></td>
+                          <td><?= $td_list->lwp; ?></td>
+                          <td><?= $td_list->final_gross; ?></td>
                         </tr>
                       <?php
                       }
@@ -124,6 +133,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <td><?= $tot_da_on_ta; ?></td>
                         <td><?= $tot_ma; ?></td>
                         <td><?= $tot_cash_swa; ?></td>
+                        <td><?= $tot_lwp; ?></td>
+                        <td><?= $tot_final_gross; ?></td>
                       </tr>
                     <?php
                     } else {
@@ -134,18 +145,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </table>
                 <br>
                 <div>
-                </div>
+		</div>
                 <div class="bottom">
                   <p style="display: inline;">Prepared By</p>
-                  <p style="display: inline; margin-left: 8%;">Establishment, Sr. Asstt.</p>
-                  <p style="display: inline; margin-left: 8%;">Assistant Manager-II</p>
-                  <p style="display: inline; margin-left: 8%;">Chief Executive officer</p>
+                  <p style="display: inline; margin-left: 8%;">Accountent</p>
+                  <p style="display: inline; margin-left: 8%;">Manager</p>
+                  <p style="display: inline; margin-left: 8%;">Secretary</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <center>
+        <button type='button' class="btn btn-primary mt-3" onclick='printDiv();'>Print</button>
+      </center>
     </div>
 
 

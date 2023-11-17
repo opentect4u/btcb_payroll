@@ -363,7 +363,8 @@ class Salary_Process extends CI_Model
 	{
 		$this->db->select('emp_code, emp_name, emp_catg, designation, basic_pay, bank_ac_no');
 		$this->db->where(array(
-			'emp_catg' => $catg
+			'emp_catg' => $catg,
+			'emp_status' => 'A'
 		));
 		$query = $this->db->get('md_employee');
 		return $query->result();
@@ -479,8 +480,8 @@ class Salary_Process extends CI_Model
 		));
 		$this->db->group_by('a.catg_id');
 		$query = $this->db->get('td_deductions a, md_category b');
-		// echo $this->db->last_query();
-		// exit;
+		//echo $this->db->last_query();
+		//exit;
 		return $query->result();
 	}
 
@@ -552,6 +553,16 @@ class Salary_Process extends CI_Model
 					'adv_agst_of_staff_int' => $data['adv_agst_of_staff_int'][$i],
 					'staff_adv_ext_prin' => $data['staff_adv_ext_prin'][$i],
 					'staff_adv_ext_int' => $data['staff_adv_ext_int'][$i],
+					'staff_bo_loan_prn' => $data['staff_bo_loan_prn'][$i],
+					'staff_bo_loan_int' => $data['staff_bo_loan_int'][$i],
+					'staff_pf_loan_prn' => $data['staff_pf_loan_prn'][$i],
+					'staff_pf_loan_int' => $data['staff_pf_loan_int'][$i],
+					'staff_med_loan_prn' => $data['staff_med_loan_prn'][$i],
+					'staff_med_loan_int' => $data['staff_med_loan_int'][$i],
+					'staff_emr_loan_prn' => $data['staff_emr_loan_prn'][$i],
+					'staff_emr_loan_int' => $data['staff_emr_loan_int'][$i],
+					'staff_sm_car_loan_prn' => $data['staff_sm_car_loan_prn'][$i],
+					'staff_sm_car_loan_int' => $data['staff_sm_car_loan_int'][$i],
 					'motor_cycle_prin' => $data['motor_cycle_prin'][$i],
 					'motor_cycle_int' => $data['motor_cycle_int'][$i],
 					'p_tax' => $data['p_tax'][$i],
@@ -593,6 +604,16 @@ class Salary_Process extends CI_Model
 					'adv_agst_of_staff_int' => $data['adv_agst_of_staff_int'][$i],
 					'staff_adv_ext_prin' => $data['staff_adv_ext_prin'][$i],
 					'staff_adv_ext_int' => $data['staff_adv_ext_int'][$i],
+					'staff_bo_loan_prn' => $data['staff_bo_loan_prn'][$i],
+					'staff_bo_loan_int' => $data['staff_bo_loan_int'][$i],
+					'staff_pf_loan_prn' => $data['staff_pf_loan_prn'][$i],
+					'staff_pf_loan_int' => $data['staff_pf_loan_int'][$i],
+					'staff_med_loan_prn' => $data['staff_med_loan_prn'][$i],
+					'staff_med_loan_int' => $data['staff_med_loan_int'][$i],
+					'staff_emr_loan_prn' => $data['staff_emr_loan_prn'][$i],
+					'staff_emr_loan_int' => $data['staff_emr_loan_int'][$i],
+					'staff_sm_car_loan_prn' => $data['staff_sm_car_loan_prn'][$i],
+					'staff_sm_car_loan_int' => $data['staff_sm_car_loan_int'][$i],
 					'motor_cycle_prin' => $data['motor_cycle_prin'][$i],
 					'motor_cycle_int' => $data['motor_cycle_int'][$i],
 					'p_tax' => $data['p_tax'][$i],
